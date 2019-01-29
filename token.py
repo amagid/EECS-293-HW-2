@@ -16,9 +16,6 @@ TerminalSymbol = {
 
 class Token():
 
-    # Internal type storage
-    _type = None
-
     # Blank init method since this class is not meant to be instantiated
     def __init__():
         pass

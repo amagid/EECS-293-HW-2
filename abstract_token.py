@@ -6,12 +6,11 @@ from token import Token, TerminalSymbol
 
 class AbstractToken(Token):
 
-    # Internal type storage
-    _type = None
+    # Init defines _type attribute
+    def __init__(self):
 
-    # Init assigns this AbstractToken's type
-    def __init__(self, token_type):
-        self._type = token_type
+        # Internal type storage
+        self._type = None
 
     # Retrieve and return this Token's type
     def get_type(self):
