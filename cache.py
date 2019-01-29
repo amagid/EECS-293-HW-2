@@ -4,10 +4,9 @@ an object from the cache by key or creates a new object at the given key if no
 such object currently exists.
 '''
 class Cache():
-    _cache = {}
-
+    
     def __init__(self):
-        pass
+        self._cache = {}
 
     def get(self, key, constructor):
         try:
@@ -18,5 +17,5 @@ class Cache():
             elif constructor == None:
                 raise ValueError("Key not found, and no constructor passed to create new object")
             
-            self._cache[key] = constructor()
-    
+            self._cache[key] = constructor(key)
+            return self._cache[key]
