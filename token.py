@@ -14,7 +14,6 @@ TerminalSymbol = {
     CLOSE: 7
 }
 
-# Token base class with method stubs
 class Token():
 
     # Internal type storage
@@ -25,9 +24,9 @@ class Token():
         pass
 
     # Retrieve and return this Token's type
-    def getType(self):
+    def get_type(self):
         pass
 
     # Check whether this Token matches the supplied type, and return the result
-    def matches(self, type):
+    def matches(self, token_type):
         pass
