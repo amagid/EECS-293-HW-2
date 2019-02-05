@@ -17,9 +17,10 @@ class Connector(AbstractToken):
     def __init__(self, token_type):
 
         # Guard against initialization without a representation argument
-        if token_type == None:
+        if token_type is None:
             raise ValueError("New Connectors must have a token_type argument")
-        elif token_type == TerminalSymbol.VARIABLE:
+            
+        if token_type == TerminalSymbol.VARIABLE:
             raise ValueError("New Connectors cannot be of Variable type")
 
         # Assign internal _type field

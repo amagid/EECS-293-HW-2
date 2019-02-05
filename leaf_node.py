@@ -10,7 +10,7 @@ class LeafNode(Node):
     @staticmethod
     def build(token):
         # Guard against missing token argument
-        if token == None:
+        if token is None:
             raise ValueError("Leaf Nodes require a valid Token argument")
 
         return LeafNode(token)

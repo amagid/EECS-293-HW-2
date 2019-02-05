@@ -12,9 +12,9 @@ class Cache():
         try:
             return self._cache[key]
         except KeyError:
-            if key == None:
+            if key is None:
                 raise ValueError("No key passed")
-            elif constructor == None:
+            elif constructor is None:
                 raise ValueError("Key not found, and no constructor passed to create new object")
             
             self._cache[key] = constructor(key)

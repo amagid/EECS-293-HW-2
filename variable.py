@@ -18,7 +18,7 @@ class Variable(AbstractToken):
     def __init__(self, representation):
 
         # Guard against initialization without a representation argument
-        if representation == None:
+        if representation is None:
             raise ValueError("New Variables must have a Representation argument")
 
         # Assign internal _type and _representation fields
