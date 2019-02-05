@@ -1,7 +1,7 @@
 '''
 Variable class represents an Abstract Token which is specifically a variable.
 '''
-from token import TerminalSymbol
+from terminal_symbol import TerminalSymbol
 from abstract_token import AbstractToken
 from cache import Cache
 

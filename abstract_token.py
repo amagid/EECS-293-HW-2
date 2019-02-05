@@ -2,7 +2,8 @@
 Abstract Token class extends and fully implements the Token base class.
 '''
 from abc import ABC
-from token import Token, TerminalSymbol
+from token import Token
+from terminal_symbol import TerminalSymbol
 
 class AbstractToken(ABC, Token):
 
