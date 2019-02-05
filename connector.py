@@ -5,6 +5,15 @@ from token import TerminalSymbol
 from abstract_token import AbstractToken
 from cache import Cache
 
+SymbolTranslations = {
+    TerminalSymbol.PLUS: '+',
+    TerminalSymbol.MINUS: '-',
+    TerminalSymbol.TIMES: '*',
+    TerminalSymbol.DIVIDE: '/',
+    TerminalSymbol.OPEN: '(',
+    TerminalSymbol.CLOSE: ')'
+}
+
 class Connector(AbstractToken):
 
     _cache = Cache()
@@ -28,17 +37,7 @@ class Connector(AbstractToken):
 
     # Override __str__ to return this Variable's name (representation)
     def __str__(self):
-        if self._type == TerminalSymbol.PLUS:
-            return "+"
-        elif self._type == TerminalSymbol.MINUS:
-            return "-"
-        elif self._type == TerminalSymbol.TIMES:
-            return "*"
-        elif self._type == TerminalSymbol.DIVIDE:
-            return '/'
-        elif self._type == TerminalSymbol.OPEN:
-            return '('
-        elif self._type == TerminalSymbol.CLOSE:
-            return ')'
+        if self._type in SymbolTranslations:
+            return SymbolTranslations[self._type]
         else:
-            raise ValueError("Invalid Type")
+            raise ValueError("Invalid Symbol Type")
