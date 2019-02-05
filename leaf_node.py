@@ -24,4 +24,4 @@ class LeafNode(Node):
 
     # This is a leaf node, so toList returns just this node's token in a Collection
     def toList(self):
-        return [self.token]
+        return [self._token]
