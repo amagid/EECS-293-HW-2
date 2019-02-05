@@ -2,12 +2,11 @@
 Node base class
 '''
 
-class Node():
-    
-    # Blank init method since thie class should not be directly instantiated
-    def __init__(self):
-        pass
+from abc import ABC, abstractmethod
+
+class Node(ABC):
 
     # toList method returns subtree under this node as a Collection
+    @abstractmethod
     def toList(self):
         pass
