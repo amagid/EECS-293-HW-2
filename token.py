@@ -2,16 +2,16 @@
 Main Token storage file, including general Token class.
 '''
 
-class Token():
+from abc import ABC, abstractmethod
 
-    # Blank init method since this class is not meant to be instantiated
-    def __init__():
-        pass
+class Token(ABC):
 
     # Retrieve and return this Token's type
+    @abstractmethod
     def get_type(self):
         pass
 
     # Check whether this Token matches the supplied type, and return the result
+    @abstractmethod
     def matches(self, token_type):
         pass
