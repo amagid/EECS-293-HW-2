@@ -16,4 +16,8 @@ class InternalNode(Node):
 
     # This is an internal node, so it returns the concatenation of its children's lists
     def toList(self):
-        return [self._children[0].toList(), self._children[1].toList()]
+        output = []
+        for child in self._children:
+            output.append(child.toList())
+
+        return output
