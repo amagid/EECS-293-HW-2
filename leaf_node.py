@@ -3,7 +3,7 @@ Leaf node class represents a leaf node on the expression tree.
 '''
 
 from node import Node
-from token import Token
+from tokenclass import Token
 
 class LeafNode(Node):
 

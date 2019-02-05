@@ -3,7 +3,7 @@ Internal node class represents an internal node on the expression tree.
 '''
 
 from node import Node
-from token import Token
+from tokenclass import Token
 
 class InternalNode(Node):
 

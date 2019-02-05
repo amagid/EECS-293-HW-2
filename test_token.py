@@ -1,5 +1,5 @@
 import unittest
-from ..token import Token
+from tokenclass import Token
 
 class TestToken(unittest.TestCase):
     pass
