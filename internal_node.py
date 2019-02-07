@@ -12,7 +12,7 @@ class InternalNode(Node):
 
     # Return the string representation of the stored token
     def __str__(self):
-        return str(self.toList())
+        return '[' + ','.join(str(child) for child in self._children) + ']'
 
     # This is an internal node, so it returns the concatenation of its children's lists
     def toList(self):
