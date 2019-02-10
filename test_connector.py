@@ -1,5 +1,5 @@
-import unittest
 from connector import Connector
 
-class TestConnector(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

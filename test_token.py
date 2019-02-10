@@ -1,5 +1,5 @@
-import unittest
 from tokenclass import Token
 
-class TestToken(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

@@ -1,5 +1,5 @@
-import unittest
 from leaf_node import LeafNode
 
-class TestLeafNode(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

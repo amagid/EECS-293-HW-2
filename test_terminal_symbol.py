@@ -1,5 +1,5 @@
-import unittest
 from terminal_symbol import TerminalSymbol
 
-class TestTerminalSymbol(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

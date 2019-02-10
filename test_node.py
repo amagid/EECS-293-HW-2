@@ -1,5 +1,5 @@
-import unittest
 from node import Node
 
-class TestNode(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

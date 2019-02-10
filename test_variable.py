@@ -1,5 +1,5 @@
-import unittest
 from variable import Variable
 
-class TestVariable(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True

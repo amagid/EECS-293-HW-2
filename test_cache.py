@@ -1,5 +1,5 @@
-import unittest
 from cache import Cache
 
-class TestCache(unittest.TestCase):
-    pass
+def test_the_tester():
+    print('tested')
+    assert True
