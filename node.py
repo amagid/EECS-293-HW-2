@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 class Node(ABC):
 
-    # toList method returns subtree under this node as a Collection
+    # to_list method returns subtree under this node as a Collection
     @abstractmethod
-    def toList(self):
+    def to_list(self):
         pass

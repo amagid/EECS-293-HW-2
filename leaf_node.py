@@ -22,6 +22,6 @@ class LeafNode(Node):
     def __str__(self):
         return str(self._token)
 
-    # This is a leaf node, so toList returns just this node's token in a Collection
-    def toList(self):
+    # This is a leaf node, so to_list returns just this node's token in a Collection
+    def to_list(self):
         return [self._token]

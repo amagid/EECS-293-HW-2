@@ -6,7 +6,7 @@ class MockNode():
     def __init__(self):
         pass
     
-    def toList(self):
+    def to_list(self):
         return []
 
     def __str__(self):
@@ -20,7 +20,7 @@ def test_empty_children_str():
 
 def test_empty_children_list():
     node = InternalNode([])
-    assert node.toList() == []
+    assert node.to_list() == []
 
 def test_recurse_on_1_child_str():
     node = InternalNode([1])
@@ -28,7 +28,7 @@ def test_recurse_on_1_child_str():
 
 def test_recurse_on_1_child_list():
     node = InternalNode([MockNode()])
-    assert node.toList() == [[]]
+    assert node.to_list() == [[]]
 
 def test_recurse_on_many_child_str():
     node = InternalNode([1,2,3])
@@ -36,5 +36,5 @@ def test_recurse_on_many_child_str():
 
 def test_recurse_on_many_child_list():
     node = InternalNode([MockNode(), MockNode(), MockNode()])
-    assert node.toList() == [[], [], []]
+    assert node.to_list() == [[], [], []]
 

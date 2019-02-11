@@ -14,4 +14,4 @@ def test_str_with_connector():
 def test_to_list_with_connector():
     conn = Connector.build(TerminalSymbol.PLUS)
     ln = LeafNode(conn)
-    assert ln.toList() == [conn]
+    assert ln.to_list() == [conn]

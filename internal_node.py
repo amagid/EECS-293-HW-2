@@ -15,9 +15,9 @@ class InternalNode(Node):
         return '[' + ','.join(str(child) for child in self._children) + ']'
 
     # This is an internal node, so it returns the concatenation of its children's lists
-    def toList(self):
+    def to_list(self):
         output = []
         for child in self._children:
-            output.append(child.toList())
+            output.append(child.to_list())
 
         return output
