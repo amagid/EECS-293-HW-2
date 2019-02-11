@@ -25,6 +25,10 @@ class TerminalSymbol(Symbol):
         else:
             return ParseState.FAILURE
 
+    # Getter for internal _type field
+    def get_type(self):
+        return self._type
+
 # TA: Is there a better way to do this? I couldn't get the static
 # variables assigned any other way (not cleanly at least).
 # Create VARIABLE symbol
