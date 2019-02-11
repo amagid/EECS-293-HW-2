@@ -3,7 +3,7 @@ import copy
 class ParseState():
 
     # Static FAILURE state
-    _FAILURE = None
+    FAILURE = None
 
     # Build a new ParseState with the given 'node' and 'remainder' arguments
     @staticmethod
@@ -37,16 +37,16 @@ class ParseState():
     def has_no_remainder(self):
         return len(self._remainder) == 0
 
-# TA: Is there a better way to do this? I couldn't get the _FAILURE static
+# TA: Is there a better way to do this? I couldn't get the FAILURE static
 # variable assigned any other way (not cleanly at least).
-# Creates the _FAILURE static ParseState member of ParseState
+# Creates the FAILURE static ParseState member of ParseState
 def _create_failure_state():
     # Block any duplicate runs
-    if ParseState._FAILURE is not None:
+    if ParseState.FAILURE is not None:
         return
 
-    ParseState._FAILURE = ParseState(None, None)
-    ParseState._FAILURE._success = False
+    ParseState.FAILURE = ParseState(None, None)
+    ParseState.FAILURE._success = False
 
-# Create the _FAILURE state on module load
+# Create the FAILURE state on module load
 _create_failure_state()
