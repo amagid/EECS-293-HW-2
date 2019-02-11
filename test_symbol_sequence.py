@@ -32,7 +32,7 @@ def _generate_1_token_symbol_sequence():
 # Helper method to generate a list of built Tokens from a list of TerminalSymbols
 def _generate_production_from_terminal_symbols(terminal_symbols):
     # List of variable names to generate test variables from
-    variable_names = ['a', 'b', 'c', 'd']
+    variable_names = ['d', 'c', 'b', 'a']
 
     # Build Token from each supplied TerminalSymbol & add to production
     production = []
