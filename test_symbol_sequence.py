@@ -9,11 +9,11 @@ from parse_state import ParseState
 # Helper method to generate a SymbolSequence for '(a+b)'
 def _generate_test_symbol_sequence():
     production = [
-        Connector.build(TerminalSymbol.OPEN),
-        Variable.build('a'),
-        Connector.build(TerminalSymbol.PLUS),
-        Variable.build('b'),
-        Connector.build(TerminalSymbol.CLOSE)
+        TerminalSymbol.OPEN,
+        TerminalSymbol.VARIABLE,
+        TerminalSymbol.PLUS,
+        TerminalSymbol.VARIABLE,
+        TerminalSymbol.CLOSE
     ]
     return production, SymbolSequence.build(production)
 
@@ -23,7 +23,7 @@ def _generate_empty_symbol_sequence():
 
 # Helper method to generate a SymbolSequence with one Token in it
 def _generate_1_token_symbol_sequence():
-    production = [Connector.build(TerminalSymbol.OPEN)]
+    production = [TerminalSymbol.OPEN]
     return production, SymbolSequence.build(production)
 
 # Test that SymbolSequence.EPSILON is created
@@ -117,14 +117,14 @@ def test_match_1_token_seq_1_token_prod_matches():
 # Test match 1 token seq with 1 token prod which does not match
 def test_match_1_token_seq__1_token_prod_fails():
     _, seq = _generate_1_token_symbol_sequence()
-    prod = [Connector.build(TerminalSymbol.MINUS)]
+    prod = [TerminalSymbol.MINUS]
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
 
 # Test match 1 token seq with large prod which matches
 def test_match_1_token_seq_large_prod_matches():
-    seq = SymbolSequence.build([Connector.OPEN])
+    seq = SymbolSequence.build([TerminalSymbol.OPEN])
     prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
@@ -133,7 +133,7 @@ def test_match_1_token_seq_large_prod_matches():
 
 # Test match 1 token seq with large prod which does not match
 def test_match_1_token_seq_large_prod_fails():
-    seq = SymbolSequence.build([Connector.CLOSE])
+    seq = SymbolSequence.build([TerminalSymbol.CLOSE])
     prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
@@ -169,7 +169,7 @@ def test_match_large_seq_large_prod_matches():
 def test_match_large_seq_large_prod_fails():
     _, seq = _generate_test_symbol_sequence()
     prod, _ = _generate_test_symbol_sequence()
-    prod.insert(0, Variable.build('c'))
+    prod.insert(0, TerminalSymbol.VARIABLE)
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
