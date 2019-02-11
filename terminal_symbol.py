@@ -1,14 +1,12 @@
 '''
 TerminalSymbol enum provides encoding for different types of Tokens
 '''
-
-from enum import Enum
 from symbols import Symbol
 from leaf_node import LeafNode
 from parse_state import ParseState
 
 # TerminalSymbol enum
-class TerminalSymbol(Enum, Symbol):
+class TerminalSymbol(Symbol):
     VARIABLE = 1
     PLUS = 2
     MINUS = 3

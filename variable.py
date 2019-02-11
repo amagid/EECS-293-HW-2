@@ -32,3 +32,9 @@ class Variable(AbstractToken):
     # Get and return the name of this Variable
     def representation(self):
         return self._representation
+
+    def __eq__(self, obj):
+        return type(obj) is Variable and obj.representation() == self.representation()
+
+    def __ne__(self, obj):
+        return not (self == obj)
