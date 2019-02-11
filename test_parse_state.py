@@ -46,8 +46,8 @@ def test_build_assigns_success_true():
 def test_build_assigns_given_fields():
     remainder, node, state = _generate_test_parse_state()
 
-    assert state.node is node
-    assert state.remainder == remainder
+    assert state.node() is node
+    assert state.remainder() == remainder
 
 # Test that the remainder is deep-copied properly
 def test_build_deep_copy_remainder():
