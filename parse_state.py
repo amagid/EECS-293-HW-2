@@ -1,3 +1,5 @@
+import copy
+
 class ParseState():
 
     # Static FAILURE state
@@ -9,6 +11,16 @@ class ParseState():
         failure = ParseState(None, None)
         failure._success = False
         return failure
+
+    # Build a new ParseState with the given 'node' and 'remainder' arguments
+    @staticmethod
+    def build(node, remainder)
+        if node is None:
+            raise ValueError('ParseStates need a \'node\' argument')
+        elif remainder is None:
+            raise ValueError('ParseStates need a \'remainder\' argument')
+        
+        return ParseState(node, copy.deepcopy(remainder))
 
     # Init takes arguments for current processed tree and remaining Token list
     def __init__(self, node, remainder):
@@ -30,7 +42,7 @@ class ParseState():
 
     # Getter for self._remainder
     def remainder(self):
-        return self._remainder
+        return copy.deepcopy(self._remainder)
 
     # Check whether there is no remainder. Returns True if remainder list is empty
     def has_no_remainder(self):
