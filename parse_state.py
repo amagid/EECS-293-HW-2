@@ -14,7 +14,7 @@ class ParseState():
 
     # Build a new ParseState with the given 'node' and 'remainder' arguments
     @staticmethod
-    def build(node, remainder)
+    def build(node, remainder):
         if node is None:
             raise ValueError('ParseStates need a \'node\' argument')
         elif remainder is None:
