@@ -13,7 +13,7 @@ class ParseState():
         elif remainder is None:
             raise ValueError('ParseStates need a \'remainder\' argument')
         
-        return ParseState(node, copy.deepcopy(remainder))
+        return ParseState(node, copy.copy(remainder))
 
     # Init takes arguments for current processed tree and remaining Token list
     def __init__(self, node, remainder):
@@ -31,7 +31,7 @@ class ParseState():
 
     # Getter for self._remainder
     def remainder(self):
-        return copy.deepcopy(self._remainder)
+        return copy.copy(self._remainder)
 
     # Check whether there is no remainder. Returns True if remainder list is empty
     def has_no_remainder(self):
