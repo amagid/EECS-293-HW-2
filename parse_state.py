@@ -1,0 +1,2 @@
+class ParseState():
+    pass
