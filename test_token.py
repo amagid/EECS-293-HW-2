@@ -1,5 +1,6 @@
+import pytest
 from tokenclass import Token
 
-def test_the_tester():
-    print('tested')
-    assert True
+def test_token_is_abstract():
+    with pytest.raises(TypeError):
+        Token()
