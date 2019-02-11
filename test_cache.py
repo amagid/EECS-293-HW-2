@@ -1,25 +1,28 @@
 import pytest
 from cache import Cache
 
-@pytest.fixture
-def cache():
+def _create_cache():
     return Cache()
 
 def _create_abc123_string():
     return 'abc123'
 
-def test_error_on_no_key_supplied(cache);
+def test_error_on_no_key_supplied():
+    _cache = _create_cache()
     with pytest.raises(ValueError):
-        cache.get(None)
+        _cache.get(None, None)
 
-def test_error_on_no_constructor_supplied(cache);
+def test_error_on_no_constructor_supplied():
+    _cache = _create_cache()
     with pytest.raises(ValueError):
-        cache.get('test', None)
+        _cache.get('test', None)
 
-def test_creates_new_instance(cache):
-    test_string = cache.get('test', _create_abc123_string)
-    assert test_string == 'abc123', 'Cache must create new object with provided constructor'
+def test_creates_new_instance():
+    _cache = _create_cache()
+    test_string = _cache.get('test', _create_abc123_string)
+    assert test_string == 'abc123'
 
-def test_retrieves_existing_instance(cache):
-    test_string = cache.get('test', _create_abc123_string)
-    assert test_string is cache.get('test', _create_abc123_string), 'Cache must return existing objects'
+def test_retrieves_existing_instance():
+    _cache = _create_cache()
+    test_string = _cache.get('test', _create_abc123_string)
+    assert test_string is _cache.get('test', _create_abc123_string)
