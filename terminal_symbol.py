@@ -20,6 +20,10 @@ class TerminalSymbol(Symbol):
 
     # Parse the first Token in the list and return a ParseState, return FAILURE state if fails
     def parse(self, token_list):
+        # Guard against parsing empty expression
+        if len(token_list) == 0:
+            return ParseState.FAILURE
+
         if token_list[0].matches(self._type):
             return ParseState.build(LeafNode.build(token_list[0]), token_list[1:])
         else:
