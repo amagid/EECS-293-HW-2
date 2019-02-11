@@ -4,7 +4,7 @@ from cache import Cache
 def _create_cache():
     return Cache()
 
-def _create_abc123_string():
+def _create_abc123_string(key_to_ignore):
     return 'abc123'
 
 def test_error_on_no_key_supplied():
