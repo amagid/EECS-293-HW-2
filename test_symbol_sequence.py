@@ -8,23 +8,41 @@ from parse_state import ParseState
 
 # Helper method to generate a SymbolSequence for '(a+b)'
 def _generate_test_symbol_sequence():
-    production = [
+    terminal_symbols = [
         TerminalSymbol.OPEN,
         TerminalSymbol.VARIABLE,
         TerminalSymbol.PLUS,
         TerminalSymbol.VARIABLE,
         TerminalSymbol.CLOSE
     ]
-    return production, SymbolSequence.build(production)
+    production = _generate_production_from_terminal_symbols(terminal_symbols)
+    
+    return terminal_symbols, production, SymbolSequence.build(terminal_symbols)
 
 # Helper method to generate a SymbolSequence with an empty production
 def _generate_empty_symbol_sequence():
-    return [], SymbolSequence.EPSILON
+    return [], [], SymbolSequence.EPSILON
 
 # Helper method to generate a SymbolSequence with one Token in it
 def _generate_1_token_symbol_sequence():
-    production = [TerminalSymbol.OPEN]
-    return production, SymbolSequence.build(production)
+    terminal_symbols = [TerminalSymbol.OPEN]
+    production = _generate_production_from_terminal_symbols(terminal_symbols)
+    return terminal_symbols, production, SymbolSequence.build(terminal_symbols)
+
+# Helper method to generate a list of built Tokens from a list of TerminalSymbols
+def _generate_production_from_terminal_symbols(terminal_symbols):
+    # List of variable names to generate test variables from
+    variable_names = ['a', 'b', 'c', 'd']
+
+    # Build Token from each supplied TerminalSymbol & add to production
+    production = []
+    for ts in terminal_symbols:
+        if ts is not TerminalSymbol.VARIABLE:
+            production.append(Connector.build(ts))
+        else:
+            production.append(Variable.build(variable_names.pop()))
+
+    return production
 
 # Test that SymbolSequence.EPSILON is created
 def test_epsilon_is_correct_type():
@@ -50,19 +68,19 @@ def test_build_error_on_none_production():
 
 # Ensure that str(SymbolSequence) returns the same as str(SymbolSequence._production)
 def test_str_delegates_to_production():
-    production, seq = _generate_test_symbol_sequence()
-    assert str(seq) == str(production)
+    terminal_symbols, _, seq = _generate_test_symbol_sequence()
+    assert str(seq) == str(terminal_symbols)
 
 # Ensure that the build_symbols() method assigns the production the same as build()
 def test_build_symbols_assigns_production():
-    production, seq = _generate_test_symbol_sequence()
-    seq2 = SymbolSequence.build_symbols(production[0], production[1], production[2], production[3], production[4])
+    terminal_symbols, _, seq = _generate_test_symbol_sequence()
+    seq2 = SymbolSequence.build_symbols(terminal_symbols[0], terminal_symbols[1], terminal_symbols[2], terminal_symbols[3], terminal_symbols[4])
 
     assert seq._production == seq2._production
 
 # Match should raise ValueError when token_list is None
 def test_match_error_on_none_token_list():
-    _, seq = _generate_test_symbol_sequence()
+    _, _, seq = _generate_test_symbol_sequence()
 
     with pytest.raises(ValueError):
         seq.match(None)
@@ -82,7 +100,7 @@ def test_match_empty_seq_empty_prod():
 
 # Test match empty seq with 1 token prod
 def test_match_empty_seq_1_token_prod():
-    prod, _ = _generate_1_token_symbol_sequence()
+    _, prod, _ = _generate_1_token_symbol_sequence()
     state = SymbolSequence.EPSILON.match(prod)
 
     assert state.success()
@@ -90,7 +108,7 @@ def test_match_empty_seq_1_token_prod():
 
 # Test match empty seq with large prod
 def test_match_empty_seq_large_prod():
-    prod, _ = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_test_symbol_sequence()
     state = SymbolSequence.EPSILON.match(prod)
 
     assert state.success()
@@ -98,8 +116,8 @@ def test_match_empty_seq_large_prod():
 
 # Test match 1 token seq with empty prod
 def test_match_1_token_seq_empty_prod_fails():
-    _, seq = _generate_1_token_symbol_sequence()
-    prod, _ = _generate_empty_symbol_sequence()
+    _, _, seq = _generate_1_token_symbol_sequence()
+    _, prod, _ = _generate_empty_symbol_sequence()
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
@@ -107,8 +125,8 @@ def test_match_1_token_seq_empty_prod_fails():
 # Test match 1 token seq with 1 token prod which matches
 def test_match_1_token_seq_1_token_prod_matches():
     # Duplicate calls to construct a different prod reference than was used to make seq
-    _, seq = _generate_1_token_symbol_sequence()
-    prod, _ = _generate_1_token_symbol_sequence()
+    _, _, seq = _generate_1_token_symbol_sequence()
+    _, prod, _ = _generate_1_token_symbol_sequence()
     state = seq.match(prod)
 
     assert state.success()
@@ -116,8 +134,8 @@ def test_match_1_token_seq_1_token_prod_matches():
 
 # Test match 1 token seq with 1 token prod which does not match
 def test_match_1_token_seq__1_token_prod_fails():
-    _, seq = _generate_1_token_symbol_sequence()
-    prod = [TerminalSymbol.MINUS]
+    _, _, seq = _generate_1_token_symbol_sequence()
+    prod = [Connector.build(TerminalSymbol.MINUS)]
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
@@ -125,7 +143,7 @@ def test_match_1_token_seq__1_token_prod_fails():
 # Test match 1 token seq with large prod which matches
 def test_match_1_token_seq_large_prod_matches():
     seq = SymbolSequence.build([TerminalSymbol.OPEN])
-    prod, _ = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
     assert state.success()
@@ -134,14 +152,14 @@ def test_match_1_token_seq_large_prod_matches():
 # Test match 1 token seq with large prod which does not match
 def test_match_1_token_seq_large_prod_fails():
     seq = SymbolSequence.build([TerminalSymbol.CLOSE])
-    prod, _ = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
 
 # Test match large seq with empty prod
 def test_match_large_seq_empty_prod_fails():
-    _, seq = _generate_test_symbol_sequence()
+    _, _, seq = _generate_test_symbol_sequence()
     prod = []
     state = seq.match(prod)
 
@@ -149,8 +167,8 @@ def test_match_large_seq_empty_prod_fails():
 
 # Test match large seq with 1 token prod
 def test_match_large_seq_1_token_prod_fails():
-    _, seq = _generate_test_symbol_sequence()
-    prod, _ = _generate_1_token_symbol_sequence()
+    _, _, seq = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_1_token_symbol_sequence()
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
@@ -158,8 +176,8 @@ def test_match_large_seq_1_token_prod_fails():
 # Test match large seq with large prod which matches
 def test_match_large_seq_large_prod_matches():
     # Duplicate calls to construct a different prod reference than was used to make seq
-    _, seq = _generate_test_symbol_sequence()
-    prod, _ = _generate_test_symbol_sequence()
+    _, _, seq = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
     assert state.success()
@@ -167,8 +185,8 @@ def test_match_large_seq_large_prod_matches():
 
 # Test match large seq with large prod which does not match
 def test_match_large_seq_large_prod_fails():
-    _, seq = _generate_test_symbol_sequence()
-    prod, _ = _generate_test_symbol_sequence()
+    _, _, seq = _generate_test_symbol_sequence()
+    _, prod, _ = _generate_test_symbol_sequence()
     prod.insert(0, TerminalSymbol.VARIABLE)
     state = seq.match(prod)
 
