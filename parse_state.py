@@ -5,13 +5,6 @@ class ParseState():
     # Static FAILURE state
     _FAILURE = None
 
-    # Generates the FAILURE ParseState
-    @staticmethod
-    def _create_failure_state():
-        failure = ParseState(None, None)
-        failure._success = False
-        return failure
-
     # Build a new ParseState with the given 'node' and 'remainder' arguments
     @staticmethod
     def build(node, remainder):
@@ -28,10 +21,6 @@ class ParseState():
         self._node = node
         self._remainder = remainder
 
-        # Create FAILURE state if it doesn't already exist
-        if ParseState._FAILURE is None:
-            ParseState._FAILURE = ParseState._create_failure_state()
-
     # Getter for self._success
     def success(self):
         return self._success
@@ -47,3 +36,17 @@ class ParseState():
     # Check whether there is no remainder. Returns True if remainder list is empty
     def has_no_remainder(self):
         return len(self._remainder) == 0
+
+# TA: Is there a better way to do this? I couldn't get the _FAILURE static
+# variable assigned any other way (not cleanly at least).
+# Creates the _FAILURE static ParseState member of ParseState
+def _create_failure_state():
+    # Block any duplicate runs
+    if ParseState._FAILURE is not None:
+        return
+
+    ParseState._FAILURE = ParseState(None, None)
+    ParseState._FAILURE._success = False
+
+# Create the _FAILURE state on module load
+_create_failure_state()
