@@ -103,7 +103,7 @@ def _create_factor_symbol():
 
 # Populate _production_table of EXPRESSION NTS
 def _populate_expression_table():
-    if NonTerminalSymbol.EXPRESSION._production_table is not None:
+    if NonTerminalSymbol.EXPRESSION._production_table != []:
         return
 
     NonTerminalSymbol.EXPRESSION._production_table = [
@@ -115,7 +115,7 @@ def _populate_expression_table():
 
 # Populate _production_table of EXPRESSION_TAIL NTS
 def _populate_expression_tail_table():
-    if NonTerminalSymbol.EXPRESSION_TAIL._production_table is not None:
+    if NonTerminalSymbol.EXPRESSION_TAIL._production_table != []:
         return
 
     NonTerminalSymbol.EXPRESSION_TAIL._production_table = [
@@ -134,7 +134,7 @@ def _populate_expression_tail_table():
 
 # Populate _production_table of TERM NTS
 def _populate_term_table():
-    if NonTerminalSymbol.TERM._production_table is not None:
+    if NonTerminalSymbol.TERM._production_table != []:
         return
 
     NonTerminalSymbol.TERM._production_table = [
@@ -146,7 +146,7 @@ def _populate_term_table():
 
 # Populate _production_table of TERM_TAIL NTS
 def _populate_term_tail_table():
-    if NonTerminalSymbol.TERM_TAIL._production_table is not None:
+    if NonTerminalSymbol.TERM_TAIL._production_table != []:
         return
 
     NonTerminalSymbol.TERM_TAIL._production_table = [
@@ -165,7 +165,7 @@ def _populate_term_tail_table():
 
 # Populate _production_table of UNARY NTS
 def _populate_unary_table():
-    if NonTerminalSymbol.UNARY._production_table is not None:
+    if NonTerminalSymbol.UNARY._production_table != []:
         return
 
     NonTerminalSymbol.UNARY._production_table = [
@@ -180,7 +180,7 @@ def _populate_unary_table():
 
 # Populate _production_table of FACTOR NTS
 def _populate_factor_table():
-    if NonTerminalSymbol.FACTOR._production_table is not None:
+    if NonTerminalSymbol.FACTOR._production_table != []:
         return
 
     NonTerminalSymbol.FACTOR._production_table = [
