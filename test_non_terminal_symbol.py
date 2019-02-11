@@ -78,3 +78,44 @@ def test_populate_expression_table_ignores_duplicate_runs(nts_type):
     nts_prod_updated = _name_to_nts(nts_type[0])._production_table
 
     assert nts_prod is nts_prod_updated
+
+# Test FACTOR failure (state only) on empty list
+# Test FACTOR parse success (state only) of single-token list with a variable
+# Test FACTOR parse success (state only) of 3-token list with a variable in parentheses
+# Test FACTOR parse success (state only) of many-token list wrapped in parentheses
+# Test FACTOR failure (state only) on many-token list not wrapped in parentheses
+
+# Test UNARY failure (state only) on empty list
+# Test UNARY parse success (state only) of single-token list with a variable
+# Test UNARY parse success (state only) of two-token list with unary negation of a variable
+# Test UNARY parse success (state only) of many-token list with an expression wrapped in parentheses
+# Test UNARY parse success (state only) of many-token list with unary negation of expression wrapped in parentheses
+# Test UNARY failure (state only) on term_tail two-token list [+, a]
+
+# Test TERM_TAIL parse success (state only) of empty list
+# Test TERM_TAIL parse success (state only) of two-token list with variable multiplication
+# Test TERM_TAIL parse success (state only) of two-token list with variable division
+# Test TERM_TAIL parse success (state only) of many-token list beginning with variable multiplication
+# Test TERM_TAIL failure (state only) on many-token list beginning with not [*, /]
+
+# Test TERM failure (state only) on empty list
+# Test TERM parse success (state only) of single-token list with variable
+# Test TERM parse success (state only) of three-token list with variable multiplication by variable
+# Test TERM parse success (state only) of four-token list with unary negation in variable multiplication
+# Test TERM failure (state only) on many-token list beginning with non-negation operator [+, *, /]
+
+# Test EXPRESSION_TAIL parse success (state only) of empty list
+# Test EXPRESSION_TAIL parse success (state only) of two-token list with variable addition
+# Test EXPRESSION_TAIL parse success (state only) of two-token list with variable subtraction
+# Test EXPRESSION_TAIL parse success (state only) of three-token list with double-negative variable
+# Test EXPRESSION_TAIL parse success (state only) of many-token list with addition of complex sub-expression
+# Test EXPRESSION_TAIL failure (state only) on single-token list with plus
+
+# Test EXPRESSION error on None list
+# Test EXPRESSION failure on empty list
+# Test EXPRESSION parse of single-token list with variable
+# Test EXPRESSION parse of two-token list with unary negation of variable
+# Test EXPRESSION parse of many-token list with variable in parentheses
+# Test EXPRESSION parse of many-token list with variable multiplication and then division in parentheses
+# Test EXPRESSION parse of many-token list with variable addition and subtraction
+# Test parse of assignment example input [a+b/c]
