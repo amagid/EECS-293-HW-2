@@ -11,4 +11,4 @@ __all__ = [
 ]
 
 def main():
-    print('ran init')
+    pass
