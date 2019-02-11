@@ -11,9 +11,23 @@ class NonTerminalSymbol(Symbol):
     UNARY = None
     FACTOR = None
 
+    # Attempt to parse token_list as an EXPRESSION. Return None if fails
+    @staticmethod
+    def parse_input(token_list):
+        # Attempt to parse the token_list as an EXPRESSION
+        state = NonTerminalSymbol.EXPRESSION.parse(token_list)
+        
+        # If the parse was successful and has no remainder (fully parsed), return the resulting node
+        if state.success() and state.has_no_remainder():
+            return state.node()
+
+        # If parse failed (or didn't fully complete), return None
+        return None
+
     def __init__(self):
         self._production_table = []
 
+    # Parse the token_list as this NonTerminalSymbol
     def parse(self, token_list):
         # Guard against None token_list
         if token_list is None:
