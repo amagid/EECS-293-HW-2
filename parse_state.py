@@ -7,7 +7,7 @@ class ParseState():
 
     # Generates the FAILURE ParseState
     @staticmethod
-    def create_failure_state():
+    def _create_failure_state():
         failure = ParseState(None, None)
         failure._success = False
         return failure
@@ -30,7 +30,7 @@ class ParseState():
 
         # Create FAILURE state if it doesn't already exist
         if ParseState._FAILURE is None:
-            ParseState._FAILURE = ParseState.create_failure_state()
+            ParseState._FAILURE = ParseState._create_failure_state()
 
     # Getter for self._success
     def success(self):
