@@ -18,7 +18,7 @@ def _generate_token_list():
 # Helper method to generate full test data including:
 # A TerminalSymbol, Token List, and ParseState
 def _generate_test_data():
-    ts = TerminalSymbol(TerminalSymbol.OPEN)
+    ts = TerminalSymbol.OPEN
     token_list = _generate_token_list()
     state = ts.parse(token_list)
 
@@ -26,7 +26,7 @@ def _generate_test_data():
 
 # Test that we get ParseState.FAILURE when the first token doesn't match this TerminalSymbol
 def test_failure_on_unmatched_token():
-    ts_plus = TerminalSymbol(TerminalSymbol.PLUS)
+    ts_plus = TerminalSymbol.PLUS
     state = ts_plus.parse(_generate_token_list())
 
     assert state is ParseState.FAILURE
