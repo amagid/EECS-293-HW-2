@@ -35,7 +35,7 @@ class ParseState():
 
     # Check whether there is no remainder. Returns True if remainder list is empty
     def has_no_remainder(self):
-        return len(self._remainder) == 0
+        return self._remainder is None or len(self._remainder) == 0
 
 # TA: Is there a better way to do this? I couldn't get the FAILURE static
 # variable assigned any other way (not cleanly at least).
