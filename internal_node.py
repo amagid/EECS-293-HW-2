@@ -7,6 +7,15 @@ from tokenclass import Token
 
 class InternalNode(Node):
 
+    # Static method to build and return a new InternalNode with the given children
+    @staticmethod
+    def build(children):
+        # Guard against None children argument
+        if children is None:
+            raise ValueError('InternalNodes must receive an array of children')
+
+        return InternalNode(children)
+
     def __init__(self, children):
         self._children = children
 
