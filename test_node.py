@@ -1,5 +1,6 @@
+import pytest
 from node import Node
 
-def test_the_tester():
-    print('tested')
-    assert True
+def test_node_is_abstract():
+    with pytest.raises(TypeError):
+        Node()
