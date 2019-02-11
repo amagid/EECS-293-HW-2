@@ -187,7 +187,7 @@ def test_match_large_seq_large_prod_matches():
 def test_match_large_seq_large_prod_fails():
     _, _, seq = _generate_test_symbol_sequence()
     _, prod, _ = _generate_test_symbol_sequence()
-    prod.insert(0, TerminalSymbol.VARIABLE)
+    prod.insert(0, Variable.build('e'))
     state = seq.match(prod)
 
     assert state is ParseState.FAILURE
