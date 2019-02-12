@@ -214,6 +214,10 @@ def _populate_static_tables():
     _populate_factor_table()
 
 def _create_expression_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+
     sequences = NonTerminalSymbol.EXPRESSION._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[0],
@@ -227,6 +231,10 @@ def _create_expression_map():
     }
     
 def _create_expression_tail_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+        
     sequences = NonTerminalSymbol.EXPRESSION_TAIL._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[2],
@@ -240,6 +248,10 @@ def _create_expression_tail_map():
     }
     
 def _create_term_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+        
     sequences = NonTerminalSymbol.TERM._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[0],
@@ -253,6 +265,10 @@ def _create_term_map():
     }
     
 def _create_term_tail_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+        
     sequences = NonTerminalSymbol.TERM_TAIL._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[2],
@@ -266,6 +282,10 @@ def _create_term_tail_map():
     }
     
 def _create_unary_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+        
     sequences = NonTerminalSymbol.UNARY._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[1],
@@ -279,6 +299,10 @@ def _create_unary_map():
     }
     
 def _create_factor_map():
+    # Block duplicate runs
+    if NonTerminalSymbol.PRODUCTIONS is not None:
+        return
+        
     sequences = NonTerminalSymbol.FACTOR._production_table
     return {
         TerminalSymbol.VARIABLE: sequences[1],
