@@ -158,7 +158,22 @@ TEST_EXPRESSIONS = [
     # Test EXPRESSION_TAIL parse success (state only) of three-token list with double-negative variable
     (NonTerminalSymbol.EXPRESSION_TAIL, '--a', True),
     # Test EXPRESSION_TAIL parse success (state only) of many-token list with addition of complex sub-expression
-    (NonTerminalSymbol.EXPRESSION_TAIL, '+(a-b/(c*d))', True)
+    (NonTerminalSymbol.EXPRESSION_TAIL, '+(a-b/(c*d))', True),
+    
+    # Test EXPRESSION failure on empty list
+    (NonTerminalSymbol.EXPRESSION, '', False),
+    # Test EXPRESSION parse of single-token list with variable
+    (NonTerminalSymbol.EXPRESSION, 'a', True),
+    # Test EXPRESSION parse of two-token list with unary negation of variable
+    (NonTerminalSymbol.EXPRESSION, '-a', True),
+    # Test EXPRESSION parse of many-token list with variable in parentheses
+    (NonTerminalSymbol.EXPRESSION, '(a)', True),
+    # Test EXPRESSION parse of many-token list with variable multiplication and then division in parentheses
+    (NonTerminalSymbol.EXPRESSION, '(a*b/c)', True),
+    # Test EXPRESSION parse of many-token list with variable addition and subtraction
+    (NonTerminalSymbol.EXPRESSION, 'a+b-c', True),
+    # Test parse of assignment example input [a+b/c]
+    (NonTerminalSymbol.EXPRESSION, 'a+b/c', True)
 ]
 
 # Helper method to extract and format data from a TEST_EXPRESSION test case
@@ -176,12 +191,5 @@ def test_parse_by_sub_nts_types(test_expr):
 
     assert state.success() == expected
 
-
+    
 # Test EXPRESSION error on None list
-# Test EXPRESSION failure on empty list
-# Test EXPRESSION parse of single-token list with variable
-# Test EXPRESSION parse of two-token list with unary negation of variable
-# Test EXPRESSION parse of many-token list with variable in parentheses
-# Test EXPRESSION parse of many-token list with variable multiplication and then division in parentheses
-# Test EXPRESSION parse of many-token list with variable addition and subtraction
-# Test parse of assignment example input [a+b/c]
