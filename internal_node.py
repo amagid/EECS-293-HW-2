@@ -52,7 +52,7 @@ class InternalNode(Node):
         # Simplification helper method which re-processes nodes after their children have been processed (changes may have occurred)
         def _post_process_node(self, node):
             children = node.get_children()
-            
+
             # If this node has one child, replace this node with its child & recurse
             if len(children) == 1:
                 return self._simplify_node(children[0])
@@ -64,9 +64,11 @@ class InternalNode(Node):
             # If this node still has more children or is a leaf, return it as-is
             return node
 
-        # Convert to InternalNode
+        # Simplify and convert to InternalNode
         def build(self):
-            return InternalNode.build(self._children)
+            self._children = [InternalNode.build(self._children)]
+            self.simplify()
+            return self._children[0]
 
         # Add a child to this Builder
         def add_child(self, node):
