@@ -1,7 +1,11 @@
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('expression', metavar='expression', type=str, help='The expression to parse in string format')
+parser.add_argument('expression', nargs='?', metavar='expression', type=str, help='The expression to parse in string format')
+parser.add_argument('-v', dest='verbose', action='store_true')
 args = parser.parse_args()
+
+from utils import _str_to_token_list
+from non_terminal_symbol import NonTerminalSymbol
 
 __all__ = [
     'abstract_token',
@@ -20,4 +24,21 @@ __all__ = [
 ]
 
 def main():
-    print(args.expression)
+
+    # Guard against None expression
+    if args.expression is None:
+        print('No expression supplied')
+        return None
+
+    token_list = _str_to_token_list(args.expression)
+
+    node = NonTerminalSymbol.parse_input(token_list)
+
+    if args.verbose and node is not None:
+        print(node)
+        return node.to_list()
+    elif args.verbose:
+        print('Invalid Expression.')
+        return None
+    
+    return node.to_list()
