@@ -133,10 +133,30 @@ def test_build_many_leaf_node_children():
 
 
 # Test _simplify_node with a LeafNode returns the LeafNode
+def test_simplify_node_with_leaf_node():
+    b = Builder()
+    child = LeafNode.build(Variable.build('a'))
+    result = b._simplify_node(child)
 
+    assert result is child
 
 # Test _simplify_node with many children returns node with those children simplified
+def test_simplify_node_with_many_children():
+    b = Builder()
+    grandchildren = [
+        LeafNode.build(Variable.build('a')),
+        LeafNode.build(Variable.build('b')),
+        LeafNode.build(Variable.build('c'))
+    ]
+    for grandchild in grandchildren:
+        b.add_child(InternalNode.build([grandchild]))
 
+    result = b.build()
+
+    assert type(result) is InternalNode
+    assert len(result.get_children()) == len(grandchildren)
+    for grandchild in grandchildren:
+        assert grandchild in result.get_children()
 
 
 
