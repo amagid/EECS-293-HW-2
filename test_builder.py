@@ -79,19 +79,56 @@ def test_collapse_none_children_many_children():
 
 
 # Test build with no children returns empty InternalNode
+def test_build_no_children():
+    b = Builder()
+    result = b.build()
 
+    assert type(result) is InternalNode
+    assert result.get_children() == []
 
 # Test build with one LeafNode child returns the LeafNode
+def test_build_one_leaf_node_child():
+    b = Builder()
+    child = LeafNode.build(Variable.build('a'))
+    b.add_child(child)
+    result = b.build()
 
+    assert result is child
 
 # Test build with one empty InternalNode child returns an empty InternalNode
+def test_build_one_empty_child():
+    b = Builder()
+    b.add_child(InternalNode.build([]))
+    result = b.build()
 
+    assert type(result) is InternalNode
+    assert result.get_children() == []
+    
+# Test build with InternalNode that has one LeafNode child returns the LeafNode
+def test_build_one_child_with_leaf_node_grandchild():
+    b = Builder()
+    grandchild = LeafNode.build(Variable.build('a'))
+    child = InternalNode.build([grandchild])
+    b.add_child(child)
+    result = b.build()
 
-# Test build with InternalNode that has one LeafNode child  returns the LeafNode
-
-
+    assert result is grandchild
+    
 # Test build with InternalNode that has many LeafNode children returns an InternalNode with those children
+def test_build_many_leaf_node_children():
+    b = Builder()
+    children = [
+        LeafNode.build(Variable.build('a')),
+        LeafNode.build(Variable.build('b')),
+        LeafNode.build(Variable.build('c'))
+    ]
+    b.add_child(InternalNode.build(children))
+    result = b.build()
 
+    assert type(result) is InternalNode
+    assert len(result.get_children()) == len(children)
+    for child in children:
+        assert child in result.get_children()
 
 
 
