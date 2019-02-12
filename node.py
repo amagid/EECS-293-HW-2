@@ -10,3 +10,13 @@ class Node(ABC):
     @abstractmethod
     def to_list(self):
         pass
+
+    # Returns a copy of the children of this node (None if leaf)
+    @abstractmethod
+    def get_children(self):
+        pass
+
+    # Returns True if node has children or is a leaf
+    @abstractmethod
+    def is_fruitful(self):
+        pass
