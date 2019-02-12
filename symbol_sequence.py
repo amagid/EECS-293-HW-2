@@ -45,10 +45,8 @@ class SymbolSequence():
             remainder = state.remainder()
         
         # Return a ParseState containing a new InternalNode for the root and the remainder
-        print(builder)
-        print(builder._children)
         b = builder.build()
-        print(b)
+        
         return ParseState.build(b, remainder)
 
 # TA: Is there a better way to do this? I couldn't get the EPSILON static
