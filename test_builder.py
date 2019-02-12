@@ -22,6 +22,8 @@ def test_add_child_returns_true():
 
     assert result
 
+
+
 # Test _post_process_node with no children returns None
 def test_post_process_node_no_children():
     b = Builder()
@@ -52,13 +54,27 @@ def test_post_process_node_many_children():
     assert result.to_list() == as_list
 
 
-# Test _collapse_none_children with no children returns empty list
 
+# Test _collapse_none_children with no children returns empty list
+def test_collapse_none_children_no_children():
+    b = Builder()
+    output = b._collapse_none_children([])
+
+    assert output == []
 
 # Test _collapse_none_children with one child returns list containing the child
+def test_collapse_none_children_one_child():
+    b = Builder()
+    output = b._collapse_none_children([1])
 
+    assert output == [1]
 
 # Test _collapse_none_children with many children and Nones returns only children in order
+def test_collapse_none_children_many_children():
+    b = Builder()
+    output = b._collapse_none_children([None, 1, 2, None, None, 3, None, 4, None])
+
+    assert output == [1,2,3,4]
 
 
 
@@ -78,10 +94,12 @@ def test_post_process_node_many_children():
 
 
 
+
 # Test _simplify_node with a LeafNode returns the LeafNode
 
 
 # Test _simplify_node with many children returns node with those children simplified
+
 
 
 
@@ -95,6 +113,7 @@ def test_post_process_node_many_children():
 
 
 # Test simplify returns the given Builder
+
 
 
 
