@@ -103,6 +103,7 @@ def test_populate_expression_table_ignores_duplicate_runs(nts_type):
 
     assert nts_prod is nts_prod_updated
 
+# List of test cases for NTS parse test generator
 TEST_EXPRESSIONS = [
     # Test FACTOR parse failure (state only) on empty list
     (NonTerminalSymbol.FACTOR, '', False),
@@ -128,7 +129,6 @@ TEST_EXPRESSIONS = [
     # Test UNARY failure (state only) on term_tail two-token list [+, a]
     (NonTerminalSymbol.UNARY, '+a', False),
 
-
     # Test TERM_TAIL parse success (state only) of empty list
     (NonTerminalSymbol.TERM_TAIL, '', True),
     # Test TERM_TAIL parse success (state only) of two-token list with variable multiplication
@@ -137,7 +137,6 @@ TEST_EXPRESSIONS = [
     (NonTerminalSymbol.TERM_TAIL, '/a', True),
     # Test TERM_TAIL parse success (state only) of many-token list beginning with variable multiplication
     (NonTerminalSymbol.TERM_TAIL, '*a+b', True),
-
 
     # Test TERM failure (state only) on empty list
     (NonTerminalSymbol.TERM, '', False),
@@ -149,7 +148,6 @@ TEST_EXPRESSIONS = [
     (NonTerminalSymbol.TERM, '-a*b', True),
     # Test TERM failure (state only) on many-token list beginning with non-negation operator [+, *, /]
     (NonTerminalSymbol.TERM, '+a*b/c', False),
-
 
     # Test EXPRESSION_TAIL parse success (state only) of empty list
     (NonTerminalSymbol.EXPRESSION_TAIL, '', True),
@@ -163,6 +161,7 @@ TEST_EXPRESSIONS = [
     (NonTerminalSymbol.EXPRESSION_TAIL, '+(a-b/(c*d))', True)
 ]
 
+# Helper method to extract and format data from a TEST_EXPRESSION test case
 def _extract_from_test_expression(test_expr):
     return test_expr[0], _str_to_token_list(test_expr[1]), test_expr[2]
 
