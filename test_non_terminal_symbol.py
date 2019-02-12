@@ -148,21 +148,19 @@ TEST_EXPRESSIONS = [
     # Test TERM parse success (state only) of four-token list with unary negation in variable multiplication
     (NonTerminalSymbol.TERM, '-a*b', True),
     # Test TERM failure (state only) on many-token list beginning with non-negation operator [+, *, /]
-    (NonTerminalSymbol.TERM, '+a*b/c', False)
+    (NonTerminalSymbol.TERM, '+a*b/c', False),
 
 
     # Test EXPRESSION_TAIL parse success (state only) of empty list
-
+    (NonTerminalSymbol.EXPRESSION_TAIL, '', True),
     # Test EXPRESSION_TAIL parse success (state only) of two-token list with variable addition
-
+    (NonTerminalSymbol.EXPRESSION_TAIL, '+a', True),
     # Test EXPRESSION_TAIL parse success (state only) of two-token list with variable subtraction
-
+    (NonTerminalSymbol.EXPRESSION_TAIL, '-a', True),
     # Test EXPRESSION_TAIL parse success (state only) of three-token list with double-negative variable
-
+    (NonTerminalSymbol.EXPRESSION_TAIL, '--a', True),
     # Test EXPRESSION_TAIL parse success (state only) of many-token list with addition of complex sub-expression
-
-    # Test EXPRESSION_TAIL failure (state only) on single-token list with plus
-
+    (NonTerminalSymbol.EXPRESSION_TAIL, '+(a-b/(c*d))', True)
 ]
 
 def _extract_from_test_expression(test_expr):
