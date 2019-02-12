@@ -195,3 +195,17 @@ def test_parse_by_sub_nts_types(test_expr):
 def test_parse_error_on_none_list():
     with pytest.raises(ValueError):
         NonTerminalSymbol.parse_input(None)
+
+# Test _get_next_production when token_list is empty
+def test_get_next_production_empty_list():
+    token_list = []
+    result = NonTerminalSymbol.EXPRESSION._get_next_production(token_list)
+
+    assert result is NonTerminalSymbol.PRODUCTIONS[NonTerminalSymbol.EXPRESSION][None]
+
+# Test _get_next_production when token_list has tokens in it
+def test_get_next_production_populated_list():
+    token_list = [Connector.build(TerminalSymbol.OPEN)]
+    result = NonTerminalSymbol.EXPRESSION._get_next_production(token_list)
+
+    assert result is NonTerminalSymbol.PRODUCTIONS[NonTerminalSymbol.EXPRESSION][TerminalSymbol.OPEN]
