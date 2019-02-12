@@ -126,19 +126,17 @@ TEST_EXPRESSIONS = [
     # Test UNARY parse success (state only) of many-token list with unary negation of expression wrapped in parentheses
     (NonTerminalSymbol.UNARY, '-(a+b)', True),
     # Test UNARY failure (state only) on term_tail two-token list [+, a]
-    (NonTerminalSymbol.UNARY, '+a', False)
+    (NonTerminalSymbol.UNARY, '+a', False),
 
 
     # Test TERM_TAIL parse success (state only) of empty list
-
+    (NonTerminalSymbol.TERM_TAIL, '', True),
     # Test TERM_TAIL parse success (state only) of two-token list with variable multiplication
-
+    (NonTerminalSymbol.TERM_TAIL, '*a', True),
     # Test TERM_TAIL parse success (state only) of two-token list with variable division
-
+    (NonTerminalSymbol.TERM_TAIL, '/a', True),
     # Test TERM_TAIL parse success (state only) of many-token list beginning with variable multiplication
-
-    # Test TERM_TAIL failure (state only) on many-token list beginning with not [*, /]
-
+    (NonTerminalSymbol.TERM_TAIL, '*a+b', True)
 
 
     # Test TERM failure (state only) on empty list
