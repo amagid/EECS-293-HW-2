@@ -10,7 +10,7 @@ class NonTerminalSymbol(Symbol):
     TERM_TAIL = None
     UNARY = None
     FACTOR = None
-    PRODUCTIONS = None
+    PRODUCTIONS = {}
 
     # Attempt to parse token_list as an EXPRESSION. Return None if fails
     @staticmethod
@@ -34,17 +34,29 @@ class NonTerminalSymbol(Symbol):
         if token_list is None:
             raise ValueError('NonTerminalSymbol cannot parse None token_list')
 
-        # Check each SymbolSequence in the table, return first successful match
-        state = None
-        for symbol_seq in self._production_table:
-            state = symbol_seq.match(token_list)
+        # Retrieve best SymbolSequence for this next token
+        symbol_seq = self._get_next_production(token_list)
 
-            # If the parse succeeded, return the resulting ParseState
-            if state is not ParseState.FAILURE:
-                return state
+        # If no match found, return FAILURE state
+        if symbol_seq is None:
+            return ParseState.FAILURE
         
-        # No matches found, so return FAILURE
+        # Else, continue parsing using this SymbolSequence
+        state = symbol_seq.match(token_list)
+
+        # If the parse succeeded, return the resulting ParseState
+        if state is not ParseState.FAILURE:
+            return state
+        
+        # Parse still failed, return FAILURE state
         return ParseState.FAILURE
+
+    def _get_next_production(self, token_list):
+        token_type = None
+        if len(token_list) > 0:
+            token_type = token_list[0].get_type()
+
+        return NonTerminalSymbol.PRODUCTIONS[self][token_type]
 
 
 # TA: Is there a better way to do this? I couldn't get the static
@@ -215,7 +227,7 @@ def _populate_static_tables():
 
 def _create_expression_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
 
     sequences = NonTerminalSymbol.EXPRESSION._production_table
@@ -232,7 +244,7 @@ def _create_expression_map():
     
 def _create_expression_tail_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
         
     sequences = NonTerminalSymbol.EXPRESSION_TAIL._production_table
@@ -249,7 +261,7 @@ def _create_expression_tail_map():
     
 def _create_term_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
         
     sequences = NonTerminalSymbol.TERM._production_table
@@ -266,7 +278,7 @@ def _create_term_map():
     
 def _create_term_tail_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
         
     sequences = NonTerminalSymbol.TERM_TAIL._production_table
@@ -283,7 +295,7 @@ def _create_term_tail_map():
     
 def _create_unary_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
         
     sequences = NonTerminalSymbol.UNARY._production_table
@@ -300,7 +312,7 @@ def _create_unary_map():
     
 def _create_factor_map():
     # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS is not None:
+    if NonTerminalSymbol.PRODUCTIONS != {}:
         return
         
     sequences = NonTerminalSymbol.FACTOR._production_table
