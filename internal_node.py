@@ -15,42 +15,54 @@ class InternalNode(Node):
 
         # Remove childless nodes and collapse single-child nodes
         def simplify(self):
-            for child in self._children:
-                self._simplify_node(child)
+            for i in range(0, len(self._children)):
+                self._children[i] = self._simplify_node(self._children[i])
 
             return self
 
+        # Recursive method which does the bulk of simplification work
         def _simplify_node(self, node):
             children = node.get_children()
 
             # If this node is a leaf node, return the node
             if children is None:
                 return node
-            # If this node has no children, delete it
-            elif len(children) == 0:
-                return None
-            # If this node has one child, replace this node with its child & recurse
-            elif len(children) == 1:
-                return self._simplify_node(children[0])
 
             # If this node has more than one child, recurse on children
-            for i in range(0, len(children)):
-                children[i] = self._simplify_node(children[i])
+            if len(children) > 1:
+                for i in range(0, len(children)):
+                    children[i] = self._simplify_node(children[i])
 
-            # Remove children from list if they are None
-            self._collapse_none_children(node)
+                # Remove children from list if they are None
+                children = self._collapse_none_children(children)
+                node._children = children
 
-            # Return the node so it can be added to the parent's _children list
-            return node
+            # Handle 0 children, 1 child, still >1 children, and newly leaf node cases, then return the node
+            return self._post_process_node(node)
 
-        def _collapse_none_children(self, node):
+        # Simplification helper method which removes None elements from node _children list
+        def _collapse_none_children(self, children):
             output = []
-            for child in node.get_children():
+            for child in children:
                 if child is not None:
                     output.append(child)
 
-            node._children = output
+            return output
 
+        # Simplification helper method which re-processes nodes after their children have been processed (changes may have occurred)
+        def _post_process_node(self, node):
+            children = node.get_children()
+            
+            # If this node has one child, replace this node with its child & recurse
+            if len(children) == 1:
+                return self._simplify_node(children[0])
+                
+            # If this node has no children, delete it
+            if len(children) == 0:
+                return None
+
+            # If this node still has more children or is a leaf, return it as-is
+            return node
 
         # Convert to InternalNode
         def build(self):
