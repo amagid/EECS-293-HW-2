@@ -1,6 +1,8 @@
 import pytest
 from internal_node import InternalNode
 Builder = InternalNode.Builder
+from test_non_terminal_symbol import _str_to_token_list
+from non_terminal_symbol import NonTerminalSymbol
 
 # Test add_child actually adds the child
 # Test add_child returns True
@@ -33,3 +35,12 @@ Builder = InternalNode.Builder
 # Test build with one empty InternalNode child returns an empty InternalNode
 # Test build with InternalNode that has one LeafNode child  returns the LeafNode
 # Test build with InternalNode that has many LeafNode children returns an InternalNode with those children
+# Test build on the assignment's given test expression, returns simplest possible string
+def test_builder_simplify():
+    SIMPLE_STRING = '[a,[+,[b,[/,c]]]]'
+    node = NonTerminalSymbol.parse_input(_str_to_token_list('a+b/c'))
+    b = InternalNode.Builder()
+    b.add_child(node)
+    b = b.build()
+
+    assert str(b) == SIMPLE_STRING
