@@ -29,7 +29,8 @@ class SymbolSequence():
 
         # Track remainder and children
         remainder = token_list
-        children = []
+        builder = InternalNode.Builder()
+        #children = []
 
         # Attempt to parse each Token in the list
         for prod_symbol in self._production:
@@ -40,11 +41,15 @@ class SymbolSequence():
                 return ParseState.FAILURE
 
             # else add node to children and update remainder
-            children.append(state.node())
+            builder.add_child(state.node())
             remainder = state.remainder()
         
         # Return a ParseState containing a new InternalNode for the root and the remainder
-        return ParseState.build(InternalNode.build(children), remainder)
+        print(builder)
+        print(builder._children)
+        b = builder.build()
+        print(b)
+        return ParseState.build(b, remainder)
 
 # TA: Is there a better way to do this? I couldn't get the EPSILON static
 # variable assigned any other way (not cleanly at least).

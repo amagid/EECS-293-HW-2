@@ -18,6 +18,8 @@ class InternalNode(Node):
             for i in range(0, len(self._children)):
                 self._children[i] = self._simplify_node(self._children[i])
 
+            self._children = self._collapse_none_children(self._children)
+
             return self
 
         # Recursive method which does the bulk of simplification work
@@ -66,9 +68,15 @@ class InternalNode(Node):
 
         # Simplify and convert to InternalNode
         def build(self):
-            self._children = [InternalNode.build(self._children)]
+            # Simplify Builder
             self.simplify()
-            return self._children[0]
+
+            # If there is only one child, return that child
+            if len(self._children) == 1:
+                return self._children[0]
+
+            # Else, return children wrapped in an InternalNode
+            return InternalNode.build(self._children)
 
         # Add a child to this Builder
         def add_child(self, node):
