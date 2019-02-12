@@ -161,16 +161,49 @@ def test_simplify_node_with_many_children():
 
 
 # Test simplify acts on all children
+def test_simplify_acts_on_all_children():
+    b = Builder()
+    grandchildren = [
+        LeafNode.build(Variable.build('a')),
+        LeafNode.build(Variable.build('b')),
+        LeafNode.build(Variable.build('c'))
+    ]
+    children = []
+    for grandchild in grandchildren:
+        node = InternalNode.build([grandchild])
+        b.add_child(node)
+        children.append(node)
+
+    b.simplify()
+
+    for grandchild in grandchildren:
+        assert grandchild in b._children
+
+    for child in children:
+        assert child not in b._children
 
 
 # Test simplify removes None children at end
+def test_simplify_removes_none_children():
+    b = Builder()
+    b.add_child(InternalNode.build([]))
+    b.simplify()
 
+    assert b._children == []
 
 # Test simplify does nothing when no children present
+def test_simplify_no_children():
+    b = Builder()
+    b.simplify()
 
+    assert b._children == []
 
 # Test simplify returns the given Builder
+def test_simplify_returns_builder():
+    b = Builder()
+    result = b.simplify()
 
+    assert result is b
 
 
 
