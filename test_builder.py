@@ -3,6 +3,8 @@ from internal_node import InternalNode
 Builder = InternalNode.Builder
 from test_non_terminal_symbol import _str_to_token_list
 from non_terminal_symbol import NonTerminalSymbol
+from leaf_node import LeafNode
+from variable import Variable
 
 # Test add_child actually adds the child
 def test_add_child_adds_child():
@@ -21,16 +23,33 @@ def test_add_child_returns_true():
     assert result
 
 # Test _post_process_node with no children returns None
+def test_post_process_node_no_children():
+    b = Builder()
+    node = InternalNode.build([])
 
+    assert b._post_process_node(node) is None
 
 # Test _post_process_node with one child returns that child simplified
+def test_post_process_node_one_child():
+    b = Builder()
+    deep_leaf_node = LeafNode.build(Variable.build('a'))
+    node = InternalNode.build([InternalNode.build([deep_leaf_node])])
 
-
-# Test _post_process_node with a LeafNode returns the LeafNode
-
+    assert b._post_process_node(node) is deep_leaf_node
 
 # Test _post_process_node with many children returns the given Node
+def test_post_process_node_many_children():
+    b = Builder()
+    node = InternalNode([
+        LeafNode.build(Variable.build('a')),
+        LeafNode.build(Variable.build('b')),
+        LeafNode.build(Variable.build('c'))
+    ])
+    as_list = node.to_list()
 
+    result = b._post_process_node(node)
+    assert result is node
+    assert result.to_list() == as_list
 
 
 # Test _collapse_none_children with no children returns empty list
