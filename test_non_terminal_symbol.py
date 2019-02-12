@@ -191,5 +191,7 @@ def test_parse_by_sub_nts_types(test_expr):
 
     assert state.success() == expected
 
-    
 # Test EXPRESSION error on None list
+def test_parse_error_on_none_list():
+    with pytest.raises(ValueError):
+        NonTerminalSymbol.parse_input(None)
