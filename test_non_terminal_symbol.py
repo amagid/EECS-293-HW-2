@@ -136,19 +136,19 @@ TEST_EXPRESSIONS = [
     # Test TERM_TAIL parse success (state only) of two-token list with variable division
     (NonTerminalSymbol.TERM_TAIL, '/a', True),
     # Test TERM_TAIL parse success (state only) of many-token list beginning with variable multiplication
-    (NonTerminalSymbol.TERM_TAIL, '*a+b', True)
+    (NonTerminalSymbol.TERM_TAIL, '*a+b', True),
 
 
     # Test TERM failure (state only) on empty list
-
+    (NonTerminalSymbol.TERM, '', False),
     # Test TERM parse success (state only) of single-token list with variable
-
+    (NonTerminalSymbol.TERM, 'a', True),
     # Test TERM parse success (state only) of three-token list with variable multiplication by variable
-
+    (NonTerminalSymbol.TERM, 'a*b', True),
     # Test TERM parse success (state only) of four-token list with unary negation in variable multiplication
-
+    (NonTerminalSymbol.TERM, '-a*b', True),
     # Test TERM failure (state only) on many-token list beginning with non-negation operator [+, *, /]
-
+    (NonTerminalSymbol.TERM, '+a*b/c', False)
 
 
     # Test EXPRESSION_TAIL parse success (state only) of empty list
