@@ -1,7 +1,7 @@
 import pytest
 from internal_node import InternalNode
 Builder = InternalNode.Builder
-from test_non_terminal_symbol import _str_to_token_list
+from utils import _str_to_token_list
 from non_terminal_symbol import NonTerminalSymbol
 from leaf_node import LeafNode
 from variable import Variable

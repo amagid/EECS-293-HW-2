@@ -7,6 +7,7 @@ from parse_state import ParseState
 from variable import Variable
 from connector import Connector
 from terminal_symbol import TerminalSymbol
+from utils import _str_to_token_list
 
 # List of NonTerminalSymbol names, symbol generator, and production_table populator functions
 # Used in parametrization of static NonTerminalSymbol tests
@@ -19,30 +20,10 @@ NON_TERMINAL_SYMBOL_TYPES = [
         ('FACTOR', _create_factor_symbol, _populate_factor_table)
 ]
 
-TERMINAL_SYMBOL_TRANSLATIONS = {
-    '+': TerminalSymbol.PLUS,
-    '-': TerminalSymbol.MINUS,
-    '*': TerminalSymbol.TIMES,
-    '/': TerminalSymbol.DIVIDE,
-    '(': TerminalSymbol.OPEN,
-    ')': TerminalSymbol.CLOSE
-}
-
 # Helper method to get a static NonTerminalSymbol by name
 # Used primarily to smoothen parametrization
 def _name_to_nts(name):
     return getattr(NonTerminalSymbol, name)
-
-# Helper method to allow me to define tests more easily
-# Takes a string expression representation and generates a token_list from it
-def _str_to_token_list(expr):
-    token_list = []
-    for char in expr:
-        if char in TERMINAL_SYMBOL_TRANSLATIONS:
-            token_list.append(Connector.build(TERMINAL_SYMBOL_TRANSLATIONS[char]))
-        else:
-            token_list.append(Variable.build(char))
-    return token_list
 
 # Parametrize test to generate matching tests for all NonTerminalSymbols
 @pytest.mark.parametrize(
