@@ -7,6 +7,25 @@ from tokenclass import Token
 
 class InternalNode(Node):
 
+    # Builder nested class
+    class Builder():
+        def __init__(self):
+            self._children = []
+
+        # Remove childless nodes and collapse single-child nodes
+        def simplify(self):
+            pass
+
+        # Convert to InternalNode
+        def build(self):
+            return InternalNode.build(self._children)
+
+        # Add a child to this Builder
+        def add_child(self, node):
+            self._children.append(node)
+            return True
+
+
     # Static method to build and return a new InternalNode with the given children
     @staticmethod
     def build(children):
