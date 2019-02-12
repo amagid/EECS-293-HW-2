@@ -10,6 +10,7 @@ class NonTerminalSymbol(Symbol):
     TERM_TAIL = None
     UNARY = None
     FACTOR = None
+    PRODUCTIONS = None
 
     # Attempt to parse token_list as an EXPRESSION. Return None if fails
     @staticmethod
@@ -192,7 +193,7 @@ def _populate_factor_table():
         SymbolSequence([
             TerminalSymbol.VARIABLE
         ])
-    ]
+    ]    
 
 # Create all static NonTerminalSymbols
 def _create_static_symbols():
@@ -212,6 +213,95 @@ def _populate_static_tables():
     _populate_unary_table()
     _populate_factor_table()
 
+def _create_expression_map():
+    sequences = NonTerminalSymbol.EXPRESSION._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[0],
+        TerminalSymbol.PLUS: None,
+        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.TIMES: None,
+        TerminalSymbol.DIVIDE: None,
+        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.CLOSE: None,
+        None: None
+    }
+    
+def _create_expression_tail_map():
+    sequences = NonTerminalSymbol.EXPRESSION_TAIL._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[2],
+        TerminalSymbol.PLUS: sequences[0],
+        TerminalSymbol.MINUS: sequences[1],
+        TerminalSymbol.TIMES: sequences[2],
+        TerminalSymbol.DIVIDE: sequences[2],
+        TerminalSymbol.OPEN: sequences[2],
+        TerminalSymbol.CLOSE: sequences[2],
+        None: sequences[2]
+    }
+    
+def _create_term_map():
+    sequences = NonTerminalSymbol.TERM._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[0],
+        TerminalSymbol.PLUS: None,
+        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.TIMES: None,
+        TerminalSymbol.DIVIDE: None,
+        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.CLOSE: None,
+        None: None
+    }
+    
+def _create_term_tail_map():
+    sequences = NonTerminalSymbol.TERM_TAIL._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[2],
+        TerminalSymbol.PLUS: sequences[2],
+        TerminalSymbol.MINUS: sequences[2],
+        TerminalSymbol.TIMES: sequences[0],
+        TerminalSymbol.DIVIDE: sequences[1],
+        TerminalSymbol.OPEN: sequences[2],
+        TerminalSymbol.CLOSE: sequences[2],
+        None: sequences[2]
+    }
+    
+def _create_unary_map():
+    sequences = NonTerminalSymbol.UNARY._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[1],
+        TerminalSymbol.PLUS: None,
+        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.TIMES: None,
+        TerminalSymbol.DIVIDE: None,
+        TerminalSymbol.OPEN: sequences[1],
+        TerminalSymbol.CLOSE: None,
+        None: None
+    }
+    
+def _create_factor_map():
+    sequences = NonTerminalSymbol.FACTOR._production_table
+    return {
+        TerminalSymbol.VARIABLE: sequences[1],
+        TerminalSymbol.PLUS: None,
+        TerminalSymbol.MINUS: None,
+        TerminalSymbol.TIMES: None,
+        TerminalSymbol.DIVIDE: None,
+        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.CLOSE: None,
+        None: None
+    }
+
+def _create_productions_map():
+    NonTerminalSymbol.PRODUCTIONS = {
+        NonTerminalSymbol.EXPRESSION: _create_expression_map(),
+        NonTerminalSymbol.EXPRESSION_TAIL: _create_expression_tail_map(),
+        NonTerminalSymbol.TERM: _create_term_map(),
+        NonTerminalSymbol.TERM_TAIL: _create_term_tail_map(),
+        NonTerminalSymbol.UNARY: _create_unary_map(),
+        NonTerminalSymbol.FACTOR: _create_factor_map()
+    }
+
 # Create static and populate all static symbols on module load
 _create_static_symbols()
 _populate_static_tables()
+_create_productions_map()
