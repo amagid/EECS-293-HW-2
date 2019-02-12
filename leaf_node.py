@@ -25,3 +25,11 @@ class LeafNode(Node):
     # This is a leaf node, so to_list returns just this node's token in a Collection
     def to_list(self):
         return [self._token]
+
+    # Return None since leaf nodes do not have children
+    def get_children(self):
+        return None
+
+    # Return True since leaf nodes always have stored values
+    def is_fruitful(self):
+        return True

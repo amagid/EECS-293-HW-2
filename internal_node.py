@@ -1,7 +1,7 @@
 '''
 Internal node class represents an internal node on the expression tree.
 '''
-
+import copy
 from node import Node
 from tokenclass import Token
 
@@ -30,3 +30,11 @@ class InternalNode(Node):
             output.append(child.to_list())
 
         return output
+
+    # Return a copy of this node's children
+    def get_children(self):
+        return copy.copy(self._children)
+
+    # Return True if this node has children
+    def is_fruitful(self):
+        return len(self._children) > 0
