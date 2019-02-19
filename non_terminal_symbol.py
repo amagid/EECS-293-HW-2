@@ -1,15 +1,15 @@
-from symbols import Symbol
+from enum import Enum
 from terminal_symbol import TerminalSymbol
 from symbol_sequence import SymbolSequence, EPSILON
 from parse_state import ParseState, FAILURE
 
-class NonTerminalSymbol(Symbol):
-    EXPRESSION = None
-    EXPRESSION_TAIL = None
-    TERM = None
-    TERM_TAIL = None
-    UNARY = None
-    FACTOR = None
+class NonTerminalSymbol(Enum):
+    EXPRESSION = 1
+    EXPRESSION_TAIL = 2
+    TERM = 3
+    TERM_TAIL = 4
+    UNARY = 5
+    FACTOR = 6
     PRODUCTIONS = {}
 
     # Attempt to parse token_list as an EXPRESSION. Return None if fails
@@ -24,9 +24,6 @@ class NonTerminalSymbol(Symbol):
 
         # If parse failed (or didn't fully complete), return None
         return None
-
-    def __init__(self):
-        self._production_table = []
 
     # Parse the token_list as this NonTerminalSymbol
     def parse(self, token_list):
@@ -56,82 +53,19 @@ class NonTerminalSymbol(Symbol):
         if len(token_list) > 0:
             token_type = token_list[0].get_type()
 
-        return NonTerminalSymbol.PRODUCTIONS[self][token_type]
+        return PRODUCTIONS[self][token_type]
 
 
-# TA: Is there a better way to do this? I couldn't get the static
-# variables assigned any other way (not cleanly at least).
-
-# Create all static NonTerminalSymbols
-
-# Create EXPRESSION NTS
-def _create_expression_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.EXPRESSION is not None:
-        return
-
-    NonTerminalSymbol.EXPRESSION = NonTerminalSymbol()
-
-# Create EXPRESSION_TAIL NTS
-def _create_expression_tail_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.EXPRESSION_TAIL is not None:
-        return
-
-    NonTerminalSymbol.EXPRESSION_TAIL = NonTerminalSymbol()
-
-# Create TERM NTS
-def _create_term_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.TERM is not None:
-        return
-
-    NonTerminalSymbol.TERM = NonTerminalSymbol()
-
-# Create TERM_TAIL NTS
-def _create_term_tail_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.TERM_TAIL is not None:
-        return
-
-    NonTerminalSymbol.TERM_TAIL = NonTerminalSymbol()
-
-# Create UNARY NTS
-def _create_unary_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.UNARY is not None:
-        return
-
-    NonTerminalSymbol.UNARY = NonTerminalSymbol()
-
-# Create FACTOR NTS
-def _create_factor_symbol():
-    # Block duplicate runs
-    if NonTerminalSymbol.FACTOR is not None:
-        return
-
-    NonTerminalSymbol.FACTOR = NonTerminalSymbol()
-
-# Populate _production_tables for all static NonTerminalSymbols
-
-# Populate _production_table of EXPRESSION NTS
-def _populate_expression_table():
-    if NonTerminalSymbol.EXPRESSION._production_table != []:
-        return
-
-    NonTerminalSymbol.EXPRESSION._production_table = [
+# Module-private SEQUENCES table, used for generating PRODUCTIONS table.
+# By-Token maps in PRODUCTIONS table are generated from this dictionary.
+_SEQUENCES = {
+    NonTerminalSymbol.EXPRESSION: [
         SymbolSequence.build([
             NonTerminalSymbol.TERM,
             NonTerminalSymbol.EXPRESSION_TAIL
         ])
-    ]
-
-# Populate _production_table of EXPRESSION_TAIL NTS
-def _populate_expression_tail_table():
-    if NonTerminalSymbol.EXPRESSION_TAIL._production_table != []:
-        return
-
-    NonTerminalSymbol.EXPRESSION_TAIL._production_table = [
+    ],
+    NonTerminalSymbol.EXPRESSION_TAIL: [
         SymbolSequence.build([
             TerminalSymbol.PLUS,
             NonTerminalSymbol.TERM,
@@ -143,26 +77,14 @@ def _populate_expression_tail_table():
             NonTerminalSymbol.EXPRESSION_TAIL
         ]),
         EPSILON
-    ]
-
-# Populate _production_table of TERM NTS
-def _populate_term_table():
-    if NonTerminalSymbol.TERM._production_table != []:
-        return
-
-    NonTerminalSymbol.TERM._production_table = [
+    ],
+    NonTerminalSymbol.TERM: [
         SymbolSequence([
             NonTerminalSymbol.UNARY,
             NonTerminalSymbol.TERM_TAIL
         ])
-    ]
-
-# Populate _production_table of TERM_TAIL NTS
-def _populate_term_tail_table():
-    if NonTerminalSymbol.TERM_TAIL._production_table != []:
-        return
-
-    NonTerminalSymbol.TERM_TAIL._production_table = [
+    ],
+    NonTerminalSymbol.TERM_TAIL: [
         SymbolSequence([
             TerminalSymbol.TIMES,
             NonTerminalSymbol.UNARY,
@@ -174,14 +96,8 @@ def _populate_term_tail_table():
             NonTerminalSymbol.TERM_TAIL
         ]),
         EPSILON
-    ]
-
-# Populate _production_table of UNARY NTS
-def _populate_unary_table():
-    if NonTerminalSymbol.UNARY._production_table != []:
-        return
-
-    NonTerminalSymbol.UNARY._production_table = [
+    ],
+    NonTerminalSymbol.UNARY: [
         SymbolSequence([
             TerminalSymbol.MINUS,
             NonTerminalSymbol.FACTOR
@@ -189,14 +105,8 @@ def _populate_unary_table():
         SymbolSequence([
             NonTerminalSymbol.FACTOR
         ])
-    ]
-
-# Populate _production_table of FACTOR NTS
-def _populate_factor_table():
-    if NonTerminalSymbol.FACTOR._production_table != []:
-        return
-
-    NonTerminalSymbol.FACTOR._production_table = [
+    ],
+    NonTerminalSymbol.FACTOR: [
         SymbolSequence([
             TerminalSymbol.OPEN,
             NonTerminalSymbol.EXPRESSION,
@@ -205,139 +115,71 @@ def _populate_factor_table():
         SymbolSequence([
             TerminalSymbol.VARIABLE
         ])
-    ]    
+    ]
+}
 
-# Create all static NonTerminalSymbols
-def _create_static_symbols():
-    _create_expression_symbol()
-    _create_expression_tail_symbol()
-    _create_term_symbol()
-    _create_term_tail_symbol()
-    _create_unary_symbol()
-    _create_factor_symbol()
 
-# Populate _production_tables for all static NonTerminalSymbols
-def _populate_static_tables():
-    _populate_expression_table()
-    _populate_expression_tail_table()
-    _populate_term_table()
-    _populate_term_tail_table()
-    _populate_unary_table()
-    _populate_factor_table()
-
-def _create_expression_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-
-    sequences = NonTerminalSymbol.EXPRESSION._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[0],
+# Module-static PRODUCTIONS table, used for looking up correct SymbolSequence
+# based on next Token type. Configured using values from _SEQUENCES above.
+PRODUCTIONS = {
+    NonTerminalSymbol.EXPRESSION: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.EXPRESSION][0],
         TerminalSymbol.PLUS: None,
-        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.MINUS: _SEQUENCES[NonTerminalSymbol.EXPRESSION][0],
         TerminalSymbol.TIMES: None,
         TerminalSymbol.DIVIDE: None,
-        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.EXPRESSION][0],
         TerminalSymbol.CLOSE: None,
         None: None
-    }
-    
-def _create_expression_tail_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-        
-    sequences = NonTerminalSymbol.EXPRESSION_TAIL._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[2],
-        TerminalSymbol.PLUS: sequences[0],
-        TerminalSymbol.MINUS: sequences[1],
-        TerminalSymbol.TIMES: sequences[2],
-        TerminalSymbol.DIVIDE: sequences[2],
-        TerminalSymbol.OPEN: sequences[2],
-        TerminalSymbol.CLOSE: sequences[2],
-        None: sequences[2]
-    }
-    
-def _create_term_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-        
-    sequences = NonTerminalSymbol.TERM._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[0],
+    },
+    NonTerminalSymbol.EXPRESSION_TAIL: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2],
+        TerminalSymbol.PLUS: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][0],
+        TerminalSymbol.MINUS: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][1],
+        TerminalSymbol.TIMES: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2],
+        TerminalSymbol.DIVIDE: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2],
+        TerminalSymbol.CLOSE: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2],
+        None: _SEQUENCES[NonTerminalSymbol.EXPRESSION_TAIL][2]
+    },
+    NonTerminalSymbol.TERM: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.TERM][0],
         TerminalSymbol.PLUS: None,
-        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.MINUS: _SEQUENCES[NonTerminalSymbol.TERM][0],
         TerminalSymbol.TIMES: None,
         TerminalSymbol.DIVIDE: None,
-        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.TERM][0],
         TerminalSymbol.CLOSE: None,
         None: None
-    }
-    
-def _create_term_tail_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-        
-    sequences = NonTerminalSymbol.TERM_TAIL._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[2],
-        TerminalSymbol.PLUS: sequences[2],
-        TerminalSymbol.MINUS: sequences[2],
-        TerminalSymbol.TIMES: sequences[0],
-        TerminalSymbol.DIVIDE: sequences[1],
-        TerminalSymbol.OPEN: sequences[2],
-        TerminalSymbol.CLOSE: sequences[2],
-        None: sequences[2]
-    }
-    
-def _create_unary_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-        
-    sequences = NonTerminalSymbol.UNARY._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[1],
+    },
+    NonTerminalSymbol.TERM_TAIL: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2],
+        TerminalSymbol.PLUS: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2],
+        TerminalSymbol.MINUS: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2],
+        TerminalSymbol.TIMES: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][0],
+        TerminalSymbol.DIVIDE: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][1],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2],
+        TerminalSymbol.CLOSE: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2],
+        None: _SEQUENCES[NonTerminalSymbol.TERM_TAIL][2]
+    },
+    NonTerminalSymbol.UNARY: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.UNARY][1],
         TerminalSymbol.PLUS: None,
-        TerminalSymbol.MINUS: sequences[0],
+        TerminalSymbol.MINUS: _SEQUENCES[NonTerminalSymbol.UNARY][0],
         TerminalSymbol.TIMES: None,
         TerminalSymbol.DIVIDE: None,
-        TerminalSymbol.OPEN: sequences[1],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.UNARY][1],
         TerminalSymbol.CLOSE: None,
         None: None
-    }
-    
-def _create_factor_map():
-    # Block duplicate runs
-    if NonTerminalSymbol.PRODUCTIONS != {}:
-        return
-        
-    sequences = NonTerminalSymbol.FACTOR._production_table
-    return {
-        TerminalSymbol.VARIABLE: sequences[1],
+    },
+    NonTerminalSymbol.FACTOR: {
+        TerminalSymbol.VARIABLE: _SEQUENCES[NonTerminalSymbol.FACTOR][1],
         TerminalSymbol.PLUS: None,
         TerminalSymbol.MINUS: None,
         TerminalSymbol.TIMES: None,
         TerminalSymbol.DIVIDE: None,
-        TerminalSymbol.OPEN: sequences[0],
+        TerminalSymbol.OPEN: _SEQUENCES[NonTerminalSymbol.FACTOR][0],
         TerminalSymbol.CLOSE: None,
         None: None
     }
-
-def _create_productions_map():
-    NonTerminalSymbol.PRODUCTIONS = {
-        NonTerminalSymbol.EXPRESSION: _create_expression_map(),
-        NonTerminalSymbol.EXPRESSION_TAIL: _create_expression_tail_map(),
-        NonTerminalSymbol.TERM: _create_term_map(),
-        NonTerminalSymbol.TERM_TAIL: _create_term_tail_map(),
-        NonTerminalSymbol.UNARY: _create_unary_map(),
-        NonTerminalSymbol.FACTOR: _create_factor_map()
-    }
-
-# Create static and populate all static symbols on module load
-_create_static_symbols()
-_populate_static_tables()
-_create_productions_map()
+}
