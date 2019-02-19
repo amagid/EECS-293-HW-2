@@ -22,7 +22,7 @@ class NonTerminalSymbol(Enum):
         if state.success() and state.has_no_remainder():
             return state.node()
 
-        # If parse failed (or didn't fully complete), return None
+        # Else, the parse failed (or didn't fully complete), so return None
         return None
 
     # Parse the token_list as this NonTerminalSymbol
