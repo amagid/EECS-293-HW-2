@@ -20,3 +20,9 @@ class Node(ABC):
     @abstractmethod
     def is_fruitful(self):
         pass
+
+    # Returns True if the Node is a Leaf containing an operator
+    # or if its first child is
+    @abstractmethod
+    def is_operator(self):
+        pass

@@ -33,3 +33,8 @@ class LeafNode(Node):
     # Return True since leaf nodes always have stored values
     def is_fruitful(self):
         return True
+
+    # Return True if this LeafNode carries a Token which represents an operator
+    def is_operator(self):
+        operators = ['+', '-', '*', '/']
+        return str(self._token) in operators
