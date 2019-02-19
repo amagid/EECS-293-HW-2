@@ -1,9 +1,4 @@
 import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('expression', nargs='?', metavar='expression', type=str, help='The expression to parse in string format')
-parser.add_argument('-v', dest='verbose', action='store_true')
-args = parser.parse_args()
-
 from utils import _str_to_token_list
 from non_terminal_symbol import NonTerminalSymbol
 
@@ -24,6 +19,10 @@ __all__ = [
 ]
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('expression', nargs='?', metavar='expression', type=str, help='The expression to parse in string format')
+    parser.add_argument('-v', dest='verbose', action='store_true')
+    args = parser.parse_args()
 
     # Guard against None expression
     if args.expression is None:
