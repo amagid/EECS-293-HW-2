@@ -50,7 +50,7 @@ class NonTerminalSymbol(Enum):
 
     def _get_next_production(self, token_list):
         token_type = None
-        if len(token_list) > 0:
+        if token_list != []:
             token_type = token_list[0].get_type()
 
         return PRODUCTIONS[self][token_type]

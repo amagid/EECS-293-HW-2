@@ -114,4 +114,4 @@ class InternalNode(Node):
 
     # Return True if this node has children
     def is_fruitful(self):
-        return len(self._children) > 0
+        return self._children != []
