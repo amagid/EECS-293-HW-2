@@ -1,4 +1,4 @@
-from parse_state import ParseState
+from parse_state import ParseState, FAILURE
 from internal_node import InternalNode
 
 class SymbolSequence():
@@ -38,7 +38,7 @@ class SymbolSequence():
 
             # Handle unsuccessful parse
             if not state.success():
-                return ParseState.FAILURE
+                return FAILURE
 
             # else add node to children and update remainder
             builder.add_child(state.node())

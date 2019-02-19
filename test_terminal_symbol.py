@@ -1,6 +1,6 @@
 import pytest
 from terminal_symbol import TerminalSymbol
-from parse_state import ParseState
+from parse_state import ParseState, FAILURE
 from connector import Connector
 from variable import Variable
 from leaf_node import LeafNode
@@ -24,12 +24,12 @@ def _generate_test_data():
 
     return ts, token_list, state
 
-# Test that we get ParseState.FAILURE when the first token doesn't match this TerminalSymbol
+# Test that we get FAILURE when the first token doesn't match this TerminalSymbol
 def test_failure_on_unmatched_token():
     ts_plus = TerminalSymbol.PLUS
     state = ts_plus.parse(_generate_token_list())
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test that ParseState._success is True when first token does match
 def test_success_on_matched_token():

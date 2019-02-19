@@ -1,7 +1,7 @@
 from symbols import Symbol
 from terminal_symbol import TerminalSymbol
 from symbol_sequence import SymbolSequence
-from parse_state import ParseState
+from parse_state import ParseState, FAILURE
 
 class NonTerminalSymbol(Symbol):
     EXPRESSION = None
@@ -39,17 +39,17 @@ class NonTerminalSymbol(Symbol):
 
         # If no match found, return FAILURE state
         if symbol_seq is None:
-            return ParseState.FAILURE
+            return FAILURE
         
         # Else, continue parsing using this SymbolSequence
         state = symbol_seq.match(token_list)
 
         # If the parse succeeded, return the resulting ParseState
-        if state is not ParseState.FAILURE:
+        if state is not FAILURE:
             return state
         
         # Parse still failed, return FAILURE state
-        return ParseState.FAILURE
+        return FAILURE
 
     def _get_next_production(self, token_list):
         token_type = None

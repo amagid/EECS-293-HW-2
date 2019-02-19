@@ -4,7 +4,7 @@ from symbol_sequence import _create_epsilon_state
 from connector import Connector
 from variable import Variable
 from terminal_symbol import TerminalSymbol
-from parse_state import ParseState
+from parse_state import ParseState, FAILURE
 
 # Helper method to generate a SymbolSequence for '(a+b)'
 def _generate_test_symbol_sequence():
@@ -120,7 +120,7 @@ def test_match_1_token_seq_empty_prod_fails():
     _, prod, _ = _generate_empty_symbol_sequence()
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test match 1 token seq with 1 token prod which matches
 def test_match_1_token_seq_1_token_prod_matches():
@@ -138,7 +138,7 @@ def test_match_1_token_seq__1_token_prod_fails():
     prod = [Connector.build(TerminalSymbol.MINUS)]
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test match 1 token seq with large prod which matches
 def test_match_1_token_seq_large_prod_matches():
@@ -155,7 +155,7 @@ def test_match_1_token_seq_large_prod_fails():
     _, prod, _ = _generate_test_symbol_sequence()
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test match large seq with empty prod
 def test_match_large_seq_empty_prod_fails():
@@ -163,7 +163,7 @@ def test_match_large_seq_empty_prod_fails():
     prod = []
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test match large seq with 1 token prod
 def test_match_large_seq_1_token_prod_fails():
@@ -171,7 +171,7 @@ def test_match_large_seq_1_token_prod_fails():
     _, prod, _ = _generate_1_token_symbol_sequence()
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE
 
 # Test match large seq with large prod which matches
 def test_match_large_seq_large_prod_matches():
@@ -190,4 +190,4 @@ def test_match_large_seq_large_prod_fails():
     prod.insert(0, Variable.build('e'))
     state = seq.match(prod)
 
-    assert state is ParseState.FAILURE
+    assert state is FAILURE

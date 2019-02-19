@@ -2,8 +2,6 @@ import copy
 
 class ParseState():
 
-    # Static FAILURE state
-    FAILURE = None
 
     # Build a new ParseState with the given 'node' and 'remainder' arguments
     @staticmethod
@@ -16,8 +14,8 @@ class ParseState():
         return ParseState(node, copy.copy(remainder))
 
     # Init takes arguments for current processed tree and remaining Token list
-    def __init__(self, node, remainder):
-        self._success = True
+    def __init__(self, node, remainder, success=True):
+        self._success = success
         self._node = node
         self._remainder = remainder
 
@@ -37,16 +35,6 @@ class ParseState():
     def has_no_remainder(self):
         return self._remainder is None or len(self._remainder) == 0
 
-# TA: Is there a better way to do this? I couldn't get the FAILURE static
-# variable assigned any other way (not cleanly at least).
-# Creates the FAILURE static ParseState member of ParseState
-def _create_failure_state():
-    # Block any duplicate runs
-    if ParseState.FAILURE is not None:
-        return
 
-    ParseState.FAILURE = ParseState(None, None)
-    ParseState.FAILURE._success = False
-
-# Create the FAILURE state on module load
-_create_failure_state()
+# Module-static FAILURE state
+FAILURE = ParseState(None, None, False)

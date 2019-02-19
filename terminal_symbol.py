@@ -3,7 +3,7 @@ TerminalSymbol enum provides encoding for different types of Tokens
 '''
 from symbols import Symbol
 from leaf_node import LeafNode
-from parse_state import ParseState
+from parse_state import ParseState, FAILURE
 
 # TerminalSymbol enum
 class TerminalSymbol(Symbol):
@@ -22,12 +22,12 @@ class TerminalSymbol(Symbol):
     def parse(self, token_list):
         # Guard against parsing empty expression
         if len(token_list) == 0:
-            return ParseState.FAILURE
+            return FAILURE
             
         if token_list[0].matches(self):
             return ParseState.build(LeafNode.build(token_list[0]), token_list[1:])
         else:
-            return ParseState.FAILURE
+            return FAILURE
 
     # Getter for internal _type field
     def get_type(self):

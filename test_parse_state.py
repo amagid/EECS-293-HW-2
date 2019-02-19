@@ -1,6 +1,5 @@
 import pytest
-from parse_state import ParseState
-from parse_state import _create_failure_state
+from parse_state import ParseState, FAILURE
 
 # Helper method to generate a ParseState
 def _generate_test_parse_state():
@@ -11,20 +10,14 @@ def _generate_test_parse_state():
 
 # Make sure FAILURE state is generated correctly
 def test_failure_state_is_correct_type():
-    failure_state = ParseState.FAILURE
+    failure_state = FAILURE
     assert type(failure_state) is ParseState
 
 # Make sure the attributes of FAILURE state are correct to specs
 def test_failure_state_has_correct_attributes():
-    assert not ParseState.FAILURE.success()
-    assert ParseState.FAILURE.node() is None
-    assert ParseState.FAILURE.remainder() is None
-
-# Ensure that the _create_failure_state method will not create duplicate instances
-def test_create_failure_state_ignores_duplicate_runs():
-    failure_state = ParseState.FAILURE
-    _create_failure_state()
-    assert failure_state is ParseState.FAILURE
+    assert not FAILURE.success()
+    assert FAILURE.node() is None
+    assert FAILURE.remainder() is None
 
 # Test that build() raises ValueError when no node is supplied
 def test_build_error_on_no_node():
