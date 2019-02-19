@@ -29,7 +29,7 @@ def test_post_process_node_no_children():
     b = Builder()
     node = InternalNode.build([])
 
-    assert b._post_process_node(node) is None
+    assert b._post_process_node(node, False) == []
 
 # Test _post_process_node with one child returns that child simplified
 def test_post_process_node_one_child():
@@ -37,7 +37,7 @@ def test_post_process_node_one_child():
     deep_leaf_node = LeafNode.build(Variable.build('a'))
     node = InternalNode.build([InternalNode.build([deep_leaf_node])])
 
-    assert b._post_process_node(node) is deep_leaf_node
+    assert b._post_process_node(node, False) == [deep_leaf_node]
 
 # Test _post_process_node with many children returns the given Node
 def test_post_process_node_many_children():
@@ -49,9 +49,9 @@ def test_post_process_node_many_children():
     ])
     as_list = node.to_list()
 
-    result = b._post_process_node(node)
-    assert result is node
-    assert result.to_list() == as_list
+    result = b._post_process_node(node, False)
+    assert result == [node]
+    assert result[0].to_list() == as_list
 
 
 
@@ -138,7 +138,7 @@ def test_simplify_node_with_leaf_node():
     child = LeafNode.build(Variable.build('a'))
     result = b._simplify_node(child)
 
-    assert result is child
+    assert result == [child]
 
 # Test _simplify_node with many children returns node with those children simplified
 def test_simplify_node_with_many_children():
