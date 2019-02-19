@@ -30,19 +30,16 @@ class SymbolSequence():
         # Track remainder and children
         remainder = token_list
         builder = InternalNode.Builder()
-        #children = []
 
         # Attempt to parse each Token in the list
         for prod_symbol in self._production:
             state = prod_symbol.parse(remainder)
 
-            # Handle unsuccessful parse
-            if not state.success():
+            if state.success():
+                builder.add_child(state.node())
+                remainder = state.remainder()
+            else:
                 return FAILURE
-
-            # else add node to children and update remainder
-            builder.add_child(state.node())
-            remainder = state.remainder()
         
         # Return a ParseState containing a new InternalNode for the root and the remainder
         b = builder.build()
