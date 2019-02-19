@@ -3,8 +3,6 @@ from internal_node import InternalNode
 
 class SymbolSequence():
 
-    EPSILON = None
-
     @staticmethod
     def build(production):
         if production is None:
@@ -46,15 +44,5 @@ class SymbolSequence():
         
         return ParseState.build(b, remainder)
 
-# TA: Is there a better way to do this? I couldn't get the EPSILON static
-# variable assigned any other way (not cleanly at least).
-# Creates the EPSILON static SymbolSequence member of SymbolSequence
-def _create_epsilon_state():
-    # Block any duplicate runs
-    if SymbolSequence.EPSILON is not None:
-        return
-
-    SymbolSequence.EPSILON = SymbolSequence.build([])
-
-# Create the EPSILON state on module load
-_create_epsilon_state()
+# Module-static EPSILON sequence
+EPSILON = SymbolSequence.build([])

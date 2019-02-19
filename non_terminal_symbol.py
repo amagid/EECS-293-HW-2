@@ -1,6 +1,6 @@
 from symbols import Symbol
 from terminal_symbol import TerminalSymbol
-from symbol_sequence import SymbolSequence
+from symbol_sequence import SymbolSequence, EPSILON
 from parse_state import ParseState, FAILURE
 
 class NonTerminalSymbol(Symbol):
@@ -142,7 +142,7 @@ def _populate_expression_tail_table():
             NonTerminalSymbol.TERM,
             NonTerminalSymbol.EXPRESSION_TAIL
         ]),
-        SymbolSequence.EPSILON
+        EPSILON
     ]
 
 # Populate _production_table of TERM NTS
@@ -173,7 +173,7 @@ def _populate_term_tail_table():
             NonTerminalSymbol.UNARY,
             NonTerminalSymbol.TERM_TAIL
         ]),
-        SymbolSequence.EPSILON
+        EPSILON
     ]
 
 # Populate _production_table of UNARY NTS

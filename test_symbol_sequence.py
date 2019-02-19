@@ -1,6 +1,5 @@
 import pytest
-from symbol_sequence import SymbolSequence
-from symbol_sequence import _create_epsilon_state
+from symbol_sequence import SymbolSequence, EPSILON
 from connector import Connector
 from variable import Variable
 from terminal_symbol import TerminalSymbol
@@ -21,7 +20,7 @@ def _generate_test_symbol_sequence():
 
 # Helper method to generate a SymbolSequence with an empty production
 def _generate_empty_symbol_sequence():
-    return [], [], SymbolSequence.EPSILON
+    return [], [], EPSILON
 
 # Helper method to generate a SymbolSequence with one Token in it
 def _generate_1_token_symbol_sequence():
@@ -44,22 +43,16 @@ def _generate_production_from_terminal_symbols(terminal_symbols):
 
     return production
 
-# Test that SymbolSequence.EPSILON is created
+# Test that EPSILON is created
 def test_epsilon_is_correct_type():
-    epsilon = SymbolSequence.EPSILON
+    epsilon = EPSILON
     assert type(epsilon) is SymbolSequence
 
-# Test that SymbolSequence.EPSILON has empty production
+# Test that EPSILON has empty production
 def test_epsilon_has_correct_attributes():
-    epsilon = SymbolSequence.EPSILON
+    epsilon = EPSILON
     assert type(epsilon._production) is list
     assert epsilon._production == []
-
-# Test that the EPSILON generator function only truly runs once
-def test_create_epsilon_ignores_duplicate_runs():
-    epsilon = SymbolSequence.EPSILON
-    _create_epsilon_state()
-    assert epsilon is SymbolSequence.EPSILON
 
 # Ensure that build() gives ValueError when production is None
 def test_build_error_on_none_production():
@@ -87,13 +80,13 @@ def test_match_error_on_none_token_list():
 
 # Match should return a ParseState
 def test_match_returns_parse_state():
-    state = SymbolSequence.EPSILON.match([])
+    state = EPSILON.match([])
 
     assert type(state) is ParseState
 
 # Test match empty seq with empty prod
 def test_match_empty_seq_empty_prod():
-    state = SymbolSequence.EPSILON.match([])
+    state = EPSILON.match([])
 
     assert state.success()
     assert state.remainder() == []
@@ -101,7 +94,7 @@ def test_match_empty_seq_empty_prod():
 # Test match empty seq with 1 token prod
 def test_match_empty_seq_1_token_prod():
     _, prod, _ = _generate_1_token_symbol_sequence()
-    state = SymbolSequence.EPSILON.match(prod)
+    state = EPSILON.match(prod)
 
     assert state.success()
     assert state.remainder() == prod
@@ -109,7 +102,7 @@ def test_match_empty_seq_1_token_prod():
 # Test match empty seq with large prod
 def test_match_empty_seq_large_prod():
     _, prod, _ = _generate_test_symbol_sequence()
-    state = SymbolSequence.EPSILON.match(prod)
+    state = EPSILON.match(prod)
 
     assert state.success()
     assert state.remainder() == prod
