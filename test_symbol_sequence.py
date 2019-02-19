@@ -53,7 +53,7 @@ def test_epsilon_is_correct_type():
 def test_epsilon_has_correct_attributes():
     epsilon = SymbolSequence.EPSILON
     assert type(epsilon._production) is list
-    assert len(epsilon._production) == 0
+    assert epsilon._production == []
 
 # Test that the EPSILON generator function only truly runs once
 def test_create_epsilon_ignores_duplicate_runs():

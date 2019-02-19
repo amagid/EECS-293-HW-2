@@ -60,7 +60,7 @@ class InternalNode(Node):
                 return self._simplify_node(children[0])
                 
             # If this node has no children, delete it
-            if len(children) == 0:
+            if children == []:
                 return None
 
             # If this node still has more children or is a leaf, return it as-is

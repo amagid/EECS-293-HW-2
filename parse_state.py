@@ -33,7 +33,7 @@ class ParseState():
 
     # Check whether there is no remainder. Returns True if remainder list is empty
     def has_no_remainder(self):
-        return self._remainder is None or len(self._remainder) == 0
+        return self._remainder is None or self._remainder == []
 
 
 # Module-static FAILURE state
