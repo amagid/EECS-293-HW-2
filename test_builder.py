@@ -208,9 +208,19 @@ def test_simplify_returns_builder():
 
 
 # Test build on the assignment's given test expression, returns simplest possible string
-def test_builder_simplify():
-    SIMPLEST_STRING = '[a,[+,[b,[/,c]]]]'
+def test_builder_simplify_plus_divide():
+    SIMPLEST_STRING = '[a,+,[b,/,c]]'
     node = NonTerminalSymbol.parse_input(_str_to_token_list('a+b/c'))
+    b = InternalNode.Builder()
+    b.add_child(node)
+    b = b.build()
+
+    assert str(b) == SIMPLEST_STRING
+
+# Test build on the assignment's given test expression, returns simplest possible string
+def test_builder_simplify_times_divide():
+    SIMPLEST_STRING = '[a,*,b,/,c]'
+    node = NonTerminalSymbol.parse_input(_str_to_token_list('a*b/c'))
     b = InternalNode.Builder()
     b.add_child(node)
     b = b.build()
