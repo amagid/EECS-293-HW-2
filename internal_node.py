@@ -44,12 +44,11 @@ class InternalNode(Node):
 
         # Simplification helper method which removes None elements from node _children list
         def _collapse_none_children(self, children):
-            output = []
-            for child in children:
-                if child is not None:
-                    output.append(child)
+            return list(filter(self._remove_nones, children))
 
-            return output
+        # Filter function to test if a child is None
+        def _remove_nones(self, child):
+            return child is not None
 
         # Simplification helper method which re-processes nodes after their children have been processed (changes may have occurred)
         def _post_process_node(self, node):
